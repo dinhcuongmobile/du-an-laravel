@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\frontend\tinTuc;
 
-use App\Http\Controllers\Controller;
+use App\Models\TinTuc;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TinTucController extends Controller
 {
+    protected $tin_tucs;
+    protected $views;
     public function __construct() {
-        
+        $this->tin_tucs=new TinTuc();
+        $this->views=[];
     }
 
     public function show(){
-        return view('frontend.tinTuc.tinTuc');
+        $this->views['tin_tucs']=$this->tin_tucs->loadAllTinTuc();
+        $this->views['tin_tuc_gan_day']=$this->tin_tucs->loadTinTucGanDay();
+        return view('frontend.tinTuc.tinTuc',$this->views);
     }
 }

@@ -7,7 +7,7 @@
 
     <title>Đình Cường Mobile</title>
     <meta name="author" content="SW-THEMES">
- 
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{asset('assets/images/icons/favicon.png')}} ">
 
@@ -98,13 +98,9 @@
                             <li>
                                 <a href="{{route('san-pham.san-pham-danh-muc')}}">Sản phẩm</a>
                                 <ul>
-                                    <li><a href="category.html">Oppo</a></li>
-                                    <li><a href="category-banner-boxed-slider.html">Xiaomi</a>
-                                    </li>
-                                    <li><a href="category-banner-boxed-image.html">Samsung</a>
-                                    </li>
-                                    <li><a href="category-banner-boxed-image.html">Iphone</a>
-                                    </li>
+                                    @foreach ($danh_mucs as $item)
+                                        <li><a href="">{{$item->ten_danh_muc}}</a></li>
+                                    @endforeach
                                 </ul>
                                 <!-- End .megamenu -->
                             </li>

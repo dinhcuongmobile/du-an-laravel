@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\TaiKhoanAdminController;
 use App\Http\Controllers\admin\SanPhamAdminController;
 use App\Http\Controllers\admin\DanhMucAdminController;
 use App\Http\Controllers\admin\BannerAdminController;
+use App\Http\Controllers\admin\BinhLuanController;
 use App\Http\Controllers\admin\TinTucAdminController;
 use App\Http\Controllers\admin\DonHangAdminController;
 
@@ -103,9 +104,26 @@ Route::prefix('admin')->group(function(){
     Route::prefix('banner')->group(function(){
         Route::get('danh-sach', [BannerAdminController::class,'showDanhSach'])->name('banner.danh-sach');
 
-        Route::get('viewAdd', [BannerAdminController::class,'viewAdd'])->name('banner.viewAdd');
+        //add
+        Route::get('them-banner', [BannerAdminController::class,'viewAdd'])->name('banner.them-banner');
+        Route::post('add', [BannerAdminController::class,'add'])->name('banner.add');
 
-        Route::get('viewUpdate', [BannerAdminController::class,'viewUpdate'])->name('banner.viewUpdate');
+        //update
+        Route::get('sua-banner/{id}', [BannerAdminController::class,'viewUpdate'])->name('banner.sua-banner');
+        Route::put('update/{id}', [BannerAdminController::class,'update'])->name('banner.update');
+
+        //delete
+        Route::get('delete/{id}', [BannerAdminController::class,'delete'])->name('banner.delete');
+        Route::post('xoa-nhieu', [BannerAdminController::class,'xoaNhieuBanner'])->name('banner.xoa-nhieu');
+    });
+
+    // Binh luan
+    Route::prefix('binh-luan')->group(function(){
+        Route::get('danh-sach', [BinhLuanController::class,'showDanhSach'])->name('binh-luan.danh-sach');
+
+        //delete
+        Route::get('delete/{id}', [BinhLuanController::class,'delete'])->name('binh-luan.delete');
+        Route::post('xoa-nhieu', [BinhLuanController::class,'xoaNhieuBinhLuan'])->name('binh-luan.xoa-nhieu');
     });
 
     //Don hang

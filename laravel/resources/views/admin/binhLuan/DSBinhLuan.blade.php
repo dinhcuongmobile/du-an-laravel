@@ -2,15 +2,14 @@
 @section('containerAdmin')
 <!-- Begin Page Content -->
 <div class="container-fluid">
-    <h1 class="h3 mb-2 text-gray-800 mb-5">Quản lý banner</h1>
-    <form action="{{route('banner.xoa-nhieu')}}" method="post">
+    <h1 class="h3 mb-2 text-gray-800 mb-5">Danh sách bình luận</h1>
+    <form action="{{route('binh-luan.xoa-nhieu')}}" method="post">
         @csrf
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <button type="button" class="btn btn-secondary btn-sm" onclick="chontatca()">Chọn tất cả</button>
                 <button type="button" class="btn btn-secondary btn-sm" onclick="bochontatca()">Bỏ chọn tất cả</button>
                 <button type="submit" class="btn btn-secondary btn-sm">Xóa các mục đã chọn</button>
-                <a href="{{route('banner.them-banner')}}"><button type="button" class="btn btn-secondary btn-sm">Nhập thêm</button></a>
                 <div class="float-right">
                     <div class="input-group">
                         <input type="text" class="form-control" name="kyw" placeholder="Tìm kiếm...">
@@ -28,29 +27,31 @@
                         <thead class="thead-light">
                             <tr>
                                 <th></th>
-                                <th>STT</th>
-                                <th>Mã sản phẩm</th>
-                                <th>Image</th>
-                                <th>Ngày đăng</th>
+                                <th>Họ và Tên</th>
+                                <th>Tài khoản</th>
+                                <th>Sản phẩm</th>
+                                <th>Nội dung</th>
+                                <th>Ngày bình luận</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($DSBanner as $index => $item)
-                            <tr>
-                                <td class="text-center align-middle"><input type="checkbox" name="select[]" value="{{$item->id}}"></td>
-                                <td class="align-middle text-center">{{$index+1}}</td>
-                                <td class="col-2 align-middle">DCM-{{$item->san_pham_id}}</td>
-                                <td class="col-2 align-middle"><img src="{{Storage::url($item->hinh_anh)}}" alt="err" height=60px></td>
-                                <td class="col-2 align-middle">{{$item->created_at}}</td>
-                                <td class="col-3 align-middle"><a href="{{route('banner.sua-banner',$item->id)}}" class="btn btn-secondary btn-sm">Cập nhật</a> |
-                                    <a href="{{route('banner.delete',$item->id)}}"class="btn btn-secondary btn-sm">Xóa</a></td>
-                            </tr>
+                            @foreach ($DSBinhLuan as $item)
+                                <tr>
+                                    <td class="text-center align-middle"><input type="checkbox" name="select[]" value="{{$item->id}}"></td>
+                                    <td class="col-2 align-middle">{{$item->ho_va_ten}}</td>
+                                    <td class="col-1 align-middle">{{$item->ten_dang_nhap}}</td>
+                                    <td class="col-3 align-middle">{{$item->ten_san_pham}}</td>
+                                    <td  class="col-3 align-middle">{{$item->noi_dung}}</td>
+                                    <td class="col-2 align-middle">{{$item->created_at}}</td>
+                                    <td class="col-1 align-middle"><a href="{{route('binh-luan.delete',$item->id)}}" class="btn btn-secondary btn-sm">Xóa</a></td>
+                                </tr>
                             @endforeach
+
                         </tbody>
                     </table>
                     <div class="phantrang">
-                        {{$DSBanner->links()}}
+                        {{$DSBinhLuan->links()}}
                     </div>
                 </div>
             </div>

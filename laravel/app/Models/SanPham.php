@@ -18,7 +18,20 @@ class SanPham extends Model
         ->paginate(10);
         return $query;
     }
-
+    public function loadSanPhamNoiBat(){
+        $query=DB::table('san_phams')
+        ->limit(8)
+        ->orderBy('luot_xem','desc')
+        ->get();
+        return $query;
+    }
+    public function loadSanPhamMoiNhat(){
+        $query=DB::table('san_phams')
+        ->limit(10)
+        ->orderBy('id','desc')
+        ->get();
+        return $query;
+    }
     public function loadAllDanhMuc(){
         $query = DB::table('danh_mucs')->get();
         return $query;

@@ -142,6 +142,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{route('tin-tuc.danh-sach')}}">Quản lý tin tức</a>
                         <a class="collapse-item" href="{{route('banner.danh-sach')}}">Quản lý banner</a>
+                        <a class="collapse-item" href="{{route('binh-luan.danh-sach')}}">Quản lý bình luận</a>
                     </div>
                 </div>
             </li>

@@ -11,9 +11,30 @@ class Banner extends Model
     use HasFactory;
 
     public function loadAllBanners(){
-        $banners = DB::table('banners')->get();
+        $query = DB::table('banners')
+        ->orderBy('id','desc')
+        ->paginate(10);
 
-        return $banners;
+        return $query;
     }
-    
+    public function loadAllSanPham(){
+        $query = DB::table('san_phams')->get();
+
+        return $query;
+    }
+    public function loadOneBanners($id){
+        $query= DB::table('banners')->find($id);
+        return $query;
+    }
+    public function addBanners($data){
+        DB::table('banners')->insert($data);
+    }
+    public function updateBanners($data, $id){
+        DB::table('banners')->where('id',$id)->update($data);
+    }
+    public function deleteBanners($id){
+        DB::table('banners')
+        ->where('id',$id)
+        ->delete();
+    }
 }

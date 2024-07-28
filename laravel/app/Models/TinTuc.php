@@ -18,6 +18,15 @@ class TinTuc extends Model
         return $query;
     }
 
+    public function loadTinTucGanDay(){
+        $query=DB::table('tin_tucs')
+        ->limit(2)
+        ->orderBy('id','desc')
+        ->get();
+
+        return $query;
+    }
+
     public function loadOneTinTuc($id){
         $query=DB::table('tin_tucs')->find($id);
         return $query;
