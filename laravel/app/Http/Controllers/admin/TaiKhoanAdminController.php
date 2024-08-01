@@ -59,7 +59,7 @@ class TaiKhoanAdminController extends Controller
         $dataInsert = [
             'ho_va_ten' => $request->ho_va_ten,
             'email' => $request->email,
-            'password' => Hash::make($request->mat_khau),
+            'password' => Hash::make($request->password),
             'so_dien_thoai' => $request->so_dien_thoai,
             'dia_chi' => $request->dia_chi,
             'role' => $request->role,
@@ -89,7 +89,7 @@ class TaiKhoanAdminController extends Controller
         $dataUpdate = [
             'ho_va_ten' => $request->ho_va_ten,
             'email' => $request->email,
-            'password' => Hash::make($request->mat_khau),
+            'password' => Hash::make($request->password),
             'so_dien_thoai' => $request->so_dien_thoai,
             'dia_chi' => $request->dia_chi,
             'role' => $request->role,

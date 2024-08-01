@@ -16,6 +16,11 @@
 					<h1>Tài khoản của tôi</h1>
 				</div>
 			</div>
+            @if (session('success'))
+                <div class="alert alert-success" id="error-alert">
+                    {{ session('success') }}
+                </div>
+            @endif
             @if (session('error'))
                 <div class="alert alert-danger" id="error-alert">
                     {{ session('error') }}
@@ -31,18 +36,25 @@
 									<h2 class="title" style="text-align: center;">Đăng nhập tài khoản</h2>
 								</div>
 
-								<form action="#">
+								<form action="{{route('tai-khoan.dang-nhap')}}" method="POST">
+                                    @csrf
 									<label>
 										Email
 										<span class="required">*</span>
 									</label>
 									<input type="text" class="form-input form-wide" name="email"/>
+                                    @error('email')
+                                        <p class="Err text-danger">{{ $message }}</p>
+                                    @enderror
 
 									<label class="mt-2">
 										Mật khẩu
 										<span class="required">*</span>
 									</label>
 									<input type="password" class="form-input form-wide" name="password" />
+                                    @error('password')
+                                        <p class="Err text-danger">{{ $message }}</p>
+                                    @enderror
 
 									<div class="form-footer">
                                         <a href="{{route('tai-khoan.dang-ky')}}"

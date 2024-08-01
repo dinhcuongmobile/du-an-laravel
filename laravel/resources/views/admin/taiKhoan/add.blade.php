@@ -12,10 +12,17 @@
         <form action="{{ route('tai-khoan.add') }}" method="post" class="form">
             @csrf
             <div class="row mb-3">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <label for="" class="form-label">Họ và tên</label>
                     <input type="text" class="form-control" id="" name="ho_va_ten" placeholder="Nhập họ và tên..." value="{{ old('ho_va_ten') }}">
                     @error('ho_va_ten')
+                        <p class="text-danger mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="VD: example@gmail.com..." value="{{ old('email') }}">
+                    @error('email')
                         <p class="text-danger mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -29,9 +36,9 @@
                     @enderror
                 </div>
                 <div class="col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="VD: example@gmail.com..." value="{{ old('email') }}">
-                    @error('email')
+                    <label for="" class="form-label">Nhập lại mật khẩu</label>
+                    <input type="password" class="form-control" id="" name="confirm_password">
+                    @error('confirm_password')
                         <p class="text-danger mt-1">{{ $message }}</p>
                     @enderror
                 </div>

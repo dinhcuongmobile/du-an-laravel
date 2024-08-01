@@ -141,6 +141,7 @@ Route::get('/', [HomeController::class,'home'])->name('trang-chu.home');
 
 Route::prefix('tai-khoan')->group(function(){
     Route::get('dang-nhap', [TaiKhoanController::class,'showDangNhap'])->name('tai-khoan.dang-nhap');
+    Route::post('dang-nhap', [TaiKhoanController::class,'DangNhap'])->name('tai-khoan.dang-nhap');
 
     Route::get('dang-ky', [TaiKhoanController::class,'showDangKy'])->name('tai-khoan.dang-ky');
     Route::post('dang-ky', [TaiKhoanController::class,'DangKy'])->name('tai-khoan.dang-ky');

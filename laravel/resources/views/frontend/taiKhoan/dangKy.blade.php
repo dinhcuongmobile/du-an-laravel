@@ -14,7 +14,16 @@
                 </nav>
             </div>
         </div>
-
+        @if (session('success'))
+            <div class="alert alert-success" id="error-alert">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger" id="error-alert">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="container login-container mt-3">
             <div class="row">
                 <div class="col-lg-10 mx-auto">
@@ -30,7 +39,8 @@
                                     Họ và Tên
                                     <span class="required">*</span>
                                 </label>
-                                <input type="text" class="form-input form-wide mb-2" name="ho_va_ten" value="{{old('ho_va_ten')}}"/>
+                                <input type="text" class="form-input form-wide mb-2" name="ho_va_ten"
+                                    value="{{ old('ho_va_ten') }}" />
                                 @error('ho_va_ten')
                                     <p class="Err text-danger">{{ $message }}</p>
                                 @enderror
@@ -39,8 +49,8 @@
                                     Email
                                     <span class="required">*</span>
                                 </label>
-                                <input type="text" class="form-input form-wide mb-2" id="register-email"
-                                    name="email" value="{{old('email')}}"/>
+                                <input type="text" class="form-input form-wide mb-2" id="register-email" name="email"
+                                    value="{{ old('email') }}" />
                                 @error('email')
                                     <p class="Err text-danger">{{ $message }}</p>
                                 @enderror
@@ -49,7 +59,7 @@
                                     Mật khẩu
                                     <span class="required">*</span>
                                 </label>
-                                <input type="password" class="form-input form-wide mb-2" name="password"/>
+                                <input type="password" class="form-input form-wide mb-2" name="password" />
                                 @error('password')
                                     <p class="Err text-danger">{{ $message }}</p>
                                 @enderror
