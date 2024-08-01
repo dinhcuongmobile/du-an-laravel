@@ -18,32 +18,37 @@
     border-bottom: 100px;
 }
 
+/* CSS để ẩn và hiện menu khi hover vào icon user */
 .user-menu {
     position: relative;
     display: inline-block;
 }
 
-.user-menu .user-menu-content {
-    display: none;
+.user-menu-content {
+    display: none; /* Ẩn menu */
     position: absolute;
     right: 0;
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.user-menu .user-menu-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.user-menu .user-menu-content a:hover {
-    background-color: #f1f1f1;
+    top: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 200px; /* Kích thước menu */
 }
 
 .user-menu:hover .user-menu-content {
-    display: block;
+    display: block; /* Hiển thị menu khi hover vào icon */
 }
+
+.user-menu-content a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.user-menu-content a:hover {
+    background-color: #f0f0f0; /* Màu nền khi hover vào item menu */
+}
+

@@ -16,7 +16,7 @@ class AdminAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role == 0) {
+        if (Auth::check() && Auth::user()->role == 0 &&  Auth::user()->trang_thai==0) {
             return $next($request);
         }
 

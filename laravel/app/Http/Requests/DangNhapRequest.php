@@ -15,8 +15,8 @@ class DangNhapRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required',
         ];
     }
 
@@ -25,9 +25,8 @@ class DangNhapRequest extends FormRequest
         return [
             'email.required' => 'Vui lòng nhập địa chỉ email!',
             'email.email' => 'Địa chỉ email không hợp lệ!',
+            'email.exists' => 'Địa chỉ email chưa được đăng ký!',
             'password.required' => 'Vui lòng nhập mật khẩu!',
-            'password.string' => 'Mật khẩu phải là một chuỗi!',
-            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự!',
         ];
     }
 }

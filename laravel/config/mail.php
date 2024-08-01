@@ -31,6 +31,15 @@ return [
     | Supported: "smtp", "sendmail", "mailgun", "ses",
     |            "postmark", "log", "array", "failover"
     |
+
+    'transport' => 'smtp',
+            'host' => 'smtp.gmail.com',
+            'port' => 587,
+            'encryption' => 'tls',
+            'username' => 'nguyendinhcuong27072004@gmail.com',
+            'password' => 'tameeqlpmndkkliq',
+            'timeout' => null,
+            'auth_mode' => null,
     */
 
     'mailers' => [

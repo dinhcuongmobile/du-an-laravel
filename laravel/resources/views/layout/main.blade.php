@@ -68,8 +68,18 @@
                         <div class="user-menu">
                             <a href="#" class="header-icon clickable" title="login"><i class="icon-user-2"></i></a>
                             <div class="user-menu-content">
-                                <a href="{{ route('tai-khoan.dang-nhap') }}">Đăng nhập</a>
-                                <a href="{{ route('tai-khoan.dang-ky') }}">Đăng ký</a>
+                                @if (Auth::check())
+                                    <a href="">Thông tin tài khoản</a>
+                                    @if (Auth::user()->role==0)
+                                        <a href="{{route('admin.index')}}">Đăng nhập Admin</a>
+                                    @endif
+                                    <a href="">Đơn mua</a>
+                                    <a href="{{route('tai-khoan.dang-xuat')}}">Đăng xuất</a>
+                                @else
+                                    <a href="{{ route('tai-khoan.dang-nhap') }}">Đăng nhập</a>
+                                    <a href="{{ route('tai-khoan.dang-ky') }}">Đăng ký</a>
+                                @endif
+
                             </div>
                         </div>
 
