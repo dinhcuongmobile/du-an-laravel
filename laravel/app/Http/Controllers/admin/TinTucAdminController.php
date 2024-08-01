@@ -19,8 +19,13 @@ class TinTucAdminController extends Controller
     }
 
     //SHOW
-    public function showDanhSach(){
-        $this->views['DSTinTuc']=$this->tin_tucs->loadAllTinTuc();
+    public function showDanhSach(Request $request){
+        $keyword = $request->input('kyw');
+        if ($keyword) {
+            $this->views['DSTinTuc'] = $this->tin_tucs->searchTinTuc($keyword);
+        } else {
+            $this->views['DSTinTuc'] = $this->tin_tucs->loadAllTinTuc();
+        }
         return view('admin.tinTuc.DSTinTuc',$this->views);
     }
 

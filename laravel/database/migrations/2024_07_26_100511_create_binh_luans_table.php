@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('noi_dung');
             $table->timestamps();
 
-            $table -> foreign('tai_khoan_id')->references('id')->on('tai_khoans')->onDelete('cascade');
+            $table -> foreign('tai_khoan_id')->references('id')->on('users')->onDelete('cascade');
             $table -> foreign('san_pham_id')->references('id')->on('san_phams')->onDelete('cascade');
         });
     }

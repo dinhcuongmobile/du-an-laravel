@@ -19,9 +19,13 @@ class BannerAdminController extends Controller
     }
 
     //SHOW
-    public function showDanhSach(){
-
-        $this->views['DSBanner'] = $this->Banner->loadAllBanners();
+    public function showDanhSach(Request $request){
+        $keyword = $request->input('kyw');
+        if ($keyword) {
+            $this->views['DSBanner'] = $this->Banner->searchBanners($keyword);
+        } else {
+            $this->views['DSBanner'] = $this->Banner->loadAllBanners();
+        }
         return view('admin.banner.DSBanner',$this->views);
     }
 

@@ -18,7 +18,7 @@
                             <div class="col-md-6 col-lg-4">
 								<article class="post">
 									<div class="post-media">
-										<a href="single.html">
+										<a href="{{route('tin-tuc.chi-tiet',$item->id)}}">
 											<img src="{{Storage::url($item->hinh_anh)}} " alt="Post" width="225"
 												height="280">
 										</a>
@@ -30,7 +30,7 @@
 
 									<div class="post-body">
 										<h2 class="post-title">
-											<a href="single.html">{{$item->tieu_de}}</a>
+											<a href="{{route('tin-tuc.chi-tiet',$item->id)}}">{{$item->tieu_de}}</a>
 										</h2>
 										<div class="post-content">
 											<p>{!! Str::limit(strip_tags($item->noi_dung), 150, '...') !!}</p>
@@ -56,12 +56,12 @@
                                     @foreach ($tin_tuc_gan_day as $item)
                                     <li>
 										<div class="post-media">
-											<a href="single.html">
+											<a href="{{route('tin-tuc.chi-tiet',$item->id)}}">
 												<img src="{{Storage::url($item->hinh_anh)}}" alt="Post">
 											</a>
 										</div><!-- End .post-media -->
 										<div class="post-info">
-											<a href="single.html">{!! Str::limit(strip_tags($item->tieu_de), 20, '...') !!}</a>
+											<a href="{{route('tin-tuc.chi-tiet',$item->id)}}">{!! Str::limit(strip_tags($item->tieu_de), 20, '...') !!}</a>
 											<div class="post-meta">{{ \Carbon\Carbon::parse($item->created_at)->format('M') }} {{ \Carbon\Carbon::parse($item->created_at)->format('d') }}, {{ \Carbon\Carbon::parse($item->created_at)->format('Y') }}</div>
 											<!-- End .post-meta -->
 										</div><!-- End .post-info -->

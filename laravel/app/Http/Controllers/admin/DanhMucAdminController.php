@@ -19,8 +19,13 @@ class DanhMucAdminController extends Controller
     }
 
     //SHOW
-    public function showDanhSach(){
-        $this->views['DSDanhmuc'] = $this->danh_mucs->loadAllDanhMuc();
+    public function showDanhSach(Request $request){
+        $keyword = $request->input('kyw');
+        if ($keyword) {
+            $this->views['DSDanhmuc'] = $this->danh_mucs->searchDanhMuc($keyword);
+        } else {
+            $this->views['DSDanhmuc'] = $this->danh_mucs->loadAllDanhMuc();
+        }
         return view('admin.danhMuc.DSDanhMuc',$this->views);
     }
 

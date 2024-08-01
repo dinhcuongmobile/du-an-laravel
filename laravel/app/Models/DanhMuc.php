@@ -16,6 +16,13 @@ class DanhMuc extends Model
         ->paginate(10);
         return $query;
     }
+    public function searchDanhMuc($keyword){
+        $query = DB::table('danh_mucs')
+            ->where('ten_danh_muc', 'LIKE', "%$keyword%")
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+        return $query;
+    }
     public function loadOneDanhMuc($id){
         $query= DB::table('danh_mucs')->find($id);
         return $query;

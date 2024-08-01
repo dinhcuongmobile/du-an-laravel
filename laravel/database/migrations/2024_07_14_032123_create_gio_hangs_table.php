@@ -19,7 +19,7 @@ return new class extends Migration
             $table->double('thanh_tien',10,2);
             $table->timestamps();
             //ket noi
-            $table -> foreign('tai_khoan_id')->references('id')->on('tai_khoans')->onDelete('cascade');
+            $table -> foreign('tai_khoan_id')->references('id')->on('users')->onDelete('cascade');
             $table -> foreign('san_pham_id')->references('id')->on('san_phams')->onDelete('cascade');
         });
     }

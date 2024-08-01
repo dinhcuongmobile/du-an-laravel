@@ -17,6 +17,13 @@ class Banner extends Model
 
         return $query;
     }
+    public function searchBanners($keyword){
+        $query = DB::table('banners')
+            ->where('created_at', 'LIKE', "%$keyword%")
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+        return $query;
+    }
     public function loadAllSanPham(){
         $query = DB::table('san_phams')->get();
 

@@ -23,7 +23,6 @@
                             <tr>
                                 <th>MATK</th>
                                 <th>Họ và Tên</th>
-                                <th>Tên đăng nhập</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
                                 <th>Địa chỉ</th>
@@ -37,7 +36,6 @@
                                 <tr>
                                     <td class="align-middle text-center">{{$item->id}}</td>
                                     <td class="col-2 align-middle">{{$item->ho_va_ten}}</td>
-                                    <td class="col-1 align-middle">{{$item->ten_dang_nhap}}</td>
                                     <td  class="col-1 align-middle">{{$item->email}}</td>
                                     <td class="col-1 align-middle">{{$item->so_dien_thoai}}</td>
                                     <td class="col-2 align-middle">{{$item->dia_chi}}</td>

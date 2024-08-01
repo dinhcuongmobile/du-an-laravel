@@ -20,8 +20,13 @@ class SanPhamAdminController extends Controller
     }
 
     //SHOW
-    public function showDanhSach(){
-        $this->views['DSSanPham']=$this->san_phams->loadAllSanPham();
+    public function showDanhSach(Request $request){
+        $keyword = $request->input('kyw');
+        if ($keyword) {
+            $this->views['DSSanPham'] = $this->san_phams->searchSanPham($keyword);
+        } else {
+            $this->views['DSSanPham'] = $this->san_phams->loadAllSanPham();
+        }
         return view('admin.sanPham.DSSanPham',$this->views);
     }
 

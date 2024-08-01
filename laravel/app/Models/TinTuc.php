@@ -17,7 +17,15 @@ class TinTuc extends Model
 
         return $query;
     }
-
+    public function searchTinTuc($keyword){
+        $query = DB::table('tin_tucs')
+            ->where('tieu_de', 'LIKE', "%$keyword%")
+            ->orWhere('noi_dung', 'LIKE', "%$keyword%")
+            ->orWhere('created_at', 'LIKE', "%$keyword%")
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+        return $query;
+    }
     public function loadTinTucGanDay(){
         $query=DB::table('tin_tucs')
         ->limit(2)

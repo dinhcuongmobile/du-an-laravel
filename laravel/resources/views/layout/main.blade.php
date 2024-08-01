@@ -12,7 +12,7 @@
     <link rel="icon" type="image/x-icon" href="{{asset('assets/images/icons/favicon.png')}} ">
 
 
-    <!-- <script>
+    <script>
         WebFontConfig = {
             google: {
                 families: ['Open+Sans:300,400,600,700,800', 'Poppins:300,400,500,600,700,800', 'Oswald:300,400,500,600,700,800']
@@ -21,11 +21,11 @@
         (function(d) {
             var wf = d.createElement('script'),
                 s = d.scripts[0];
-            wf.src = '{{asset('')}} assets/js/webfont.js';
+            wf.src = "{{asset('assets/js/webfont.js')}}";
             wf.async = true;
             s.parentNode.insertBefore(wf, s);
         })(document);
-    </script> -->
+    </script>
 
     <!-- Plugins CSS File -->
     <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}} ">
@@ -96,10 +96,10 @@
                             </li>
                             <li><a href="blog.html">Giới thiệu</a></li>
                             <li>
-                                <a href="{{route('san-pham.san-pham-danh-muc')}}">Sản phẩm</a>
+                                <a href="{{route('san-pham.danh-muc')}}">Sản phẩm</a>
                                 <ul>
                                     @foreach ($danh_mucs as $item)
-                                        <li><a href="">{{$item->ten_danh_muc}}</a></li>
+                                        <li><a href="{{route('san-pham.san-pham-danh-muc',$item->id)}}">{{$item->ten_danh_muc}}</a></li>
                                     @endforeach
                                 </ul>
                                 <!-- End .megamenu -->
@@ -206,6 +206,8 @@
     <script src="{{asset('assets/js/optional/isotope.pkgd.min.js')}} "></script>
     <script src="{{asset('assets/js/plugins.min.js')}} "></script>
     <script src="{{asset('assets/js/jquery.appear.min.js')}} "></script>
+    <script src="{{asset('assets/js/nouislider.min.js')}}"></script>
+    <script src="{{asset('assets/js/master.js')}} "></script>
 
     <!-- Main JS File -->
     <script src="{{asset('assets/js/main.min.js')}} "></script>

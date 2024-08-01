@@ -138,7 +138,7 @@
                 @foreach ($san_pham_noi_bat as $item)
                 <div class="product-default appear-animate" data-animation-name="fadeInRightShorter">
                     <figure>
-                        <a href="product.html">
+                        <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">
                             <img src="{{Storage::url($item->hinh_anh)}}" width="280" height="280" alt="product">
                         </a>
                         <div class="label-group">
@@ -148,10 +148,10 @@
                     </figure>
                     <div class="product-details">
                         <div class="category-list">
-                            <a href="" class="product-category">Category</a>
+                            <a href="{{route('san-pham.san-pham-danh-muc',$item->danh_muc_id)}}" class="product-category">Category</a>
                         </div>
                         <h3 class="product-title">
-                            <a href="product.html">{{$item->ten_san_pham}}</a>
+                            <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">{{$item->ten_san_pham}}</a>
                         </h3>
                         <!-- End .product-container -->
                         <div class="price-box">
@@ -162,8 +162,6 @@
                         <div class="product-action">
                             <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
                                     class="icon-shopping-cart"></i><span>Thêm vào giỏ hàng</span></a>
-                            <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i
-                                    class="fas fa-external-link-alt"></i></a>
                         </div>
                     </div>
                     <!-- End .product-details -->
@@ -193,7 +191,7 @@
                 @foreach ($san_pham_moi_nhat as $item)
                 <div class="product-default appear-animate" data-animation-name="fadeInRightShorter">
                     <figure>
-                        <a href="product.html">
+                        <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">
                             <img src="{{Storage::url($item->hinh_anh)}}" width="220" height="220" alt="product">
                         </a>
                         <div class="label-group">
@@ -202,10 +200,10 @@
                     </figure>
                     <div class="product-details">
                         <div class="category-list">
-                            <a href="category.html" class="product-category">Category</a>
+                            <a href="{{route('san-pham.san-pham-danh-muc',$item->danh_muc_id)}}" class="product-category">Category</a>
                         </div>
                         <h3 class="product-title">
-                            <a href="product.html">{{$item->ten_san_pham}}</a>
+                            <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">{{$item->ten_san_pham}}</a>
                         </h3>
                         <!-- End .product-container -->
                         <div class="price-box">
@@ -216,8 +214,6 @@
                         <div class="product-action">
                             <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
                                     class="icon-shopping-cart"></i><span>Thêm vào giỏ hàng</span></a>
-                            <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i
-                                    class="fas fa-external-link-alt"></i></a>
                         </div>
                     </div>
                     <!-- End .product-details -->
@@ -273,19 +269,19 @@
                 @foreach ($tin_tucs as $item)
                 <article class="post">
                     <div class="post-media">
-                        <a href="single.html">
+                        <a href="{{route('tin-tuc.chi-tiet',$item->id)}}">
                             <img src="{{Storage::url($item->hinh_anh)}}" alt="Post" width="225" height="280">
                         </a>
                         <div class="post-date">
-                            <span class="day">26</span>
-                            <span class="month">Feb</span>
-                        </div>
+                            <span class="day">{{ \Carbon\Carbon::parse($item->created_at)->format('d') }}</span>
+                            <span class="month">{{ \Carbon\Carbon::parse($item->created_at)->format('M') }}</span>
+                        </div><!-- End .post-date -->
                     </div>
                     <!-- End .post-media -->
 
                     <div class="post-body">
                         <h2 class="post-title">
-                            <a href="single.html">{{$item->tieu_de}}</a>
+                            <a href="{{route('tin-tuc.chi-tiet',$item->id)}}">{{$item->tieu_de}}</a>
                         </h2>
                         <div class="post-content">
                             <p>{!! Str::limit(strip_tags($item->noi_dung), 150, '...') !!}</p>

@@ -13,14 +13,10 @@
             @csrf
             @method('PUT')
             <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <label for="" class="form-label">Họ và tên</label>
                     <input type="text" class="form-control" id="" name="ho_va_ten" placeholder="Nhập họ và tên..." value="{{old('ho_va_ten',$tai_khoan->ho_va_ten)}}">
-                </div>
-                <div class="col-md-6">
-                    <label for="" class="form-label">Tên đăng nhập</label>
-                    <input type="text" class="form-control" id="" name="ten_dang_nhap" placeholder="Nhập tên đăng nhập..." value="{{old('ten_dang_nhap',$tai_khoan->ten_dang_nhap)}}">
-                    @error('ten_dang_nhap')
+                    @error('ho_va_ten')
                         <p class="text-danger mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -28,8 +24,8 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="" class="form-label">Mật Khẩu</label>
-                    <input type="password" class="form-control" id="" name="mat_khau" placeholder="VD: example123..." value="{{old('mat_khau',$tai_khoan->mat_khau)}}">
-                    @error('mat_khau')
+                    <input type="password" class="form-control" id="" name="password" placeholder="VD: example123..." value="{{old('password',$tai_khoan->password)}}">
+                    @error('password')
                         <p class="text-danger mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -63,7 +59,7 @@
                     <select class="form-control" id="sel1" name="role">
                         <option {{$tai_khoan->role==0?'selected':''}} value="0">Quản trị viên</option>
                         <option {{$tai_khoan->role==1?'selected':''}} value="1">Thành viên</option>
-                        
+
                     </select>
                 </div>
             </div>

@@ -17,8 +17,13 @@ class BinhLuanController extends Controller
     }
 
     //SHOW
-    public function showDanhSach(){
-        $this->views['DSBinhLuan'] = $this->binh_luans->loadAllBinhLuan();
+    public function showDanhSach(Request $request){
+        $keyword = $request->input('kyw');
+        if ($keyword) {
+            $this->views['DSBinhLuan'] = $this->binh_luans->searchBinhLuan($keyword);
+        } else {
+            $this->views['DSBinhLuan'] = $this->binh_luans->loadAllBinhLuan();
+        }
         return view('admin.binhLuan.DSBinhLuan',$this->views);
     }
 

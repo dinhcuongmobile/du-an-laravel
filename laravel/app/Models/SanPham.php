@@ -18,6 +18,16 @@ class SanPham extends Model
         ->paginate(10);
         return $query;
     }
+    public function searchSanPham($keyword){
+        $query = DB::table('san_phams')
+            ->join('danh_mucs','san_phams.danh_muc_id','=','danh_mucs.id')
+            ->select('san_phams.*','danh_mucs.ten_danh_muc')
+            ->where('san_phams.ten_san_pham', 'LIKE', "%$keyword%")
+            ->orWhere('danh_mucs.ten_danh_muc', 'LIKE', "%$keyword%")
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+        return $query;
+    }
     public function loadSanPhamNoiBat(){
         $query=DB::table('san_phams')
         ->limit(8)
@@ -32,6 +42,13 @@ class SanPham extends Model
         ->get();
         return $query;
     }
+    public function loadSanPhamDanhMuc($id){
+        $query = DB::table('san_phams')
+        ->where('danh_muc_id',$id)
+        ->orderBy('id','desc')
+        ->paginate(10);
+        return $query;
+    }
     public function loadAllDanhMuc(){
         $query = DB::table('danh_mucs')->get();
         return $query;
@@ -39,6 +56,15 @@ class SanPham extends Model
 
     public function loadOneSanPham($id){
         $query=DB::table('san_phams')->find($id);
+        return $query;
+    }
+
+    public function countSanPhamDanhMuc(){
+        $query=DB::table('danh_mucs')
+        ->leftJoin('san_phams', 'danh_mucs.id', '=', 'san_phams.danh_muc_id')
+        ->select('danh_mucs.id', 'danh_mucs.ten_danh_muc', DB::raw('count(san_phams.id) as san_phams_count'))
+        ->groupBy('danh_mucs.id', 'danh_mucs.ten_danh_muc')
+        ->get();
         return $query;
     }
 

@@ -14,9 +14,9 @@ class StoreTaiKhoanRequest extends FormRequest
     public function rules()
     {
         return [
-            'ten_dang_nhap' => 'required|string|max:255|unique:tai_khoans,ten_dang_nhap',
-            'mat_khau' => 'required|string|min:6',
-            'email' => 'required|email|unique:tai_khoans,email',
+            'ho_va_ten' => 'required|string|max:255',
+            'password' => 'required|string|min:6',
+            'email' => 'required|email|unique:users,email',
             'so_dien_thoai' => 'required|string|max:10',
             'dia_chi' => 'required|string|max:255',
             'role' => 'required|integer|in:0,1',
@@ -26,15 +26,17 @@ class StoreTaiKhoanRequest extends FormRequest
     public function messages()
     {
         return [
-            'ten_dang_nhap.required' => 'Vui lòng không bỏ trống tên đăng nhập!',
-            'ten_dang_nhap.unique' => 'Tên đăng nhập đã tồn tại!',
-            'mat_khau.required' => 'Vui lòng không bỏ trống mật khẩu!',
-            'mat_khau.min' => 'Mật khẩu phải có ít nhất 6 ký tự!',
+            'ho_va_ten.required' => 'Vui lòng không bỏ trống Họ và Tên!',
+            'ho_va_ten.max' => 'Họ và tên quá dài!',
+            'password.required' => 'Vui lòng không bỏ trống mật khẩu!',
+            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự!',
             'email.required' => 'Vui lòng không bỏ trống email!',
             'email.email' => 'Email không hợp lệ!',
             'email.unique' => 'Email đã tồn tại!',
             'so_dien_thoai.required' => 'Vui lòng không bỏ trống số điện thoại!',
+            'so_dien_thoai.max' => 'Số điện thoại không đúng định dạng!',
             'dia_chi.required' => 'Vui lòng không bỏ trống địa chỉ!',
+            'dia_chi.max' => 'Địa chỉ quá dài!',
             'role.required' => 'Vui lòng chọn vai trò!',
             'role.in' => 'Vai trò không hợp lệ!',
         ];

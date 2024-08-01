@@ -6,8 +6,8 @@
 					<nav aria-label="breadcrumb" class="breadcrumb-nav">
 						<div class="container">
 							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="demo4.html">Trang chủ</a></li>
-								<li class="breadcrumb-item"><a href="category.html">Tài khoản</a></li>
+								<li class="breadcrumb-item"><a href="{{route('trang-chu.home')}}">Trang chủ</a></li>
+								<li class="breadcrumb-item">Tài khoản</li>
 								<li class="breadcrumb-item active" aria-current="page">Đăng nhập </li>
 							</ol>
 						</div>
@@ -16,6 +16,11 @@
 					<h1>Tài khoản của tôi</h1>
 				</div>
 			</div>
+            @if (session('error'))
+                <div class="alert alert-danger" id="error-alert">
+                    {{ session('error') }}
+                </div>
+            @endif
 
 			<div class="container login-container mt-3">
 				<div class="row">
@@ -28,19 +33,20 @@
 
 								<form action="#">
 									<label>
-										Tên đăng nhập
+										Email
 										<span class="required">*</span>
 									</label>
-									<input type="text" class="form-input form-wide" name="ten_dang_nhap"/>
+									<input type="text" class="form-input form-wide" name="email"/>
 
 									<label class="mt-2">
 										Mật khẩu
 										<span class="required">*</span>
 									</label>
-									<input type="password" class="form-input form-wide" name="mat_khau" />
+									<input type="password" class="form-input form-wide" name="password" />
 
 									<div class="form-footer">
-
+                                        <a href="{{route('tai-khoan.dang-ky')}}"
+                                        class="forget-password text-dark form-footer-left">Bạn chưa có tài khoản? Đăng ký ngay</a>
 										<a href="forgot-password.html"
 											class="forget-password text-dark form-footer-right">Quên mật khẩu?</a>
 									</div>

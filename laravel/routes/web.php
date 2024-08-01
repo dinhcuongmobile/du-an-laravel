@@ -2,8 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\frontend\HomeController;
-use App\Http\Controllers\frontend\taiKhoan\DangNhapController;
-use App\Http\Controllers\frontend\taiKhoan\DangKyController;
+use App\Http\Controllers\frontend\taiKhoan\TaiKhoanController;
 use App\Http\Controllers\frontend\gioHang\GioHangController;
 use App\Http\Controllers\frontend\gioHang\ChiTietThanhToan;
 use App\Http\Controllers\frontend\sanPham\SanPhamDanhMucController;
@@ -141,9 +140,16 @@ Route::prefix('admin')->group(function(){
 Route::get('/', [HomeController::class,'home'])->name('trang-chu.home');
 
 Route::prefix('tai-khoan')->group(function(){
-    Route::get('dang-nhap', [DangNhapController::class,'show'])->name('tai-khoan.dang-nhap');
-    Route::get('dang-ky', [DangKyController::class,'show'])->name('tai-khoan.dang-ky');
+    Route::get('dang-nhap', [TaiKhoanController::class,'showDangNhap'])->name('tai-khoan.dang-nhap');
+
+    Route::get('dang-ky', [TaiKhoanController::class,'showDangKy'])->name('tai-khoan.dang-ky');
+    Route::post('dang-ky', [TaiKhoanController::class,'DangKy'])->name('tai-khoan.dang-ky');
+
+    Route::get('quen-mat-khau', [TaiKhoanController::class,'showQuenMatKhau'])->name('tai-khoan.quen-mat-khau');
+
+    Route::get('reset-mat-khau', [TaiKhoanController::class,'showResetMatKhau'])->name('tai-khoan.reset-mat-khau');
 });
+
 
 Route::prefix('gio-hang')->group(function(){
     Route::get('show', [GioHangController::class,'show'])->name('gio-hang.show');
@@ -151,9 +157,12 @@ Route::prefix('gio-hang')->group(function(){
 });
 
 Route::prefix('san-pham')->group(function(){
-    Route::get('san-pham-danh-muc', [SanPhamDanhMucController::class,'show'])->name('san-pham.san-pham-danh-muc');
+    Route::get('danh-muc', [SanPhamDanhMucController::class,'show'])->name('san-pham.danh-muc');
+    Route::get('san-pham-danh-muc/{id}', [SanPhamDanhMucController::class,'sanPhamDanhMuc'])->name('san-pham.san-pham-danh-muc');
+    Route::get('chi-tiet-san-pham/{id}', [SanPhamDanhMucController::class,'chiTietSanPham'])->name('san-pham.chi-tiet-san-pham');
 });
 
 Route::prefix('tin-tuc')->group(function(){
     Route::get('show', [TinTucController::class,'show'])->name('tin-tuc.show');
+    Route::get('chi-tiet/{id}', [TinTucController::class,'chiTietTinTuc'])->name('tin-tuc.chi-tiet');
 });
