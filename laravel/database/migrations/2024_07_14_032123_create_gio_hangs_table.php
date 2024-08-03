@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tai_khoan_id');
             $table->unsignedBigInteger('san_pham_id');
             $table->unsignedInteger('so_luong');
-            $table->double('thanh_tien',10,2);
+            $table->double('thanh_tien',20,2);
             $table->timestamps();
             //ket noi
             $table -> foreign('tai_khoan_id')->references('id')->on('users')->onDelete('cascade');

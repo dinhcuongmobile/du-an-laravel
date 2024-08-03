@@ -33,9 +33,50 @@ class TaiKhoanController extends Controller
         return view('frontend.taiKhoan.dangKy');
     }
 
+    public function thongTinTaiKhoan(){
+        return view('frontend.taiKhoan.thongTinTaiKhoan');
+    }
+
     public function showQuenMatKhau()
     {
         return view('frontend.taiKhoan.quenMatKhau');
+    }
+
+    public function capNhatTaiKhoan(Request $request){
+        $request->validate(
+            [
+                'ho_va_ten' => 'required|string|max:255',
+                'so_dien_thoai' => 'nullable|numeric|regex:/^0[1-9][0-9]{8}$/',
+                'dia_chi' => 'nullable|string|min:4|max:255',
+            ],
+            [
+                'ho_va_ten.required' => 'Vui lòng không bỏ trống họ và tên !',
+                'ho_va_ten.max' => 'Họ và tên quá dài !',
+                'so_dien_thoai.numeric' => 'Số điện thoại phải là số!',
+                'so_dien_thoai.regex' => 'Số điện thoại không hợp lệ!',
+                'dia_chi.min' => 'Địa chỉ quá ngắn!',
+                'dia_chi.max' => 'Địa chỉ quá dài!',
+            ]
+        );
+
+        $dataUpdate = [
+            'ho_va_ten' => $request->ho_va_ten,
+            'so_dien_thoai' => $request->so_dien_thoai,
+            'dia_chi' => $request->dia_chi,
+            'updated_at' => now(),
+        ];
+
+        $user = User::where('email', Auth::user()->email)->firstOrFail();
+        if($user){
+            if($user->update($dataUpdate)){
+                return redirect()->back()->with('success', 'Tài khoản của bạn đã được cập nhật thành công !');
+            }else{
+                return redirect()->back()->with('error', 'Cập nhật thất bại ! Vui lòng thử lại sau ít phút.');
+            }
+        }else{
+            return redirect()->back()->with('error', 'Không tải được dữ liệu ! Vui lòng thử lại sau ít phút.');
+        }
+
     }
 
     public function quenMatKhau(Request $request)
@@ -53,11 +94,15 @@ class TaiKhoanController extends Controller
 
         $user = User::where('email', $request->email)->firstOrFail();
         $token = Str::random(10);
-
-        if ($user->update(['password_reset_token' => $token])) {
-            Mail::to($user->email)->send(new ResetPassword($user, $token));
-            return redirect()->back()->with('success', 'Đã gửi liên kết đặt lại mật khẩu vào email của bạn.');
+        if($user->trang_thai==1){
+            return redirect()->back()->with('error', 'Tài khoản của bạn hiện đang bị khóa ! Không thể đổi mật khẩu.');
+        }else{
+            if ($user->update(['password_reset_token' => $token])) {
+                Mail::to($user->email)->send(new ResetPassword($user, $token));
+                return redirect()->back()->with('success', 'Đã gửi liên kết đặt lại mật khẩu vào email của bạn.');
+            }
         }
+
         return redirect()->back()->with('error', 'Lỗi khi gửi dữ liệu ! Vui lòng thử lại sau ít phút.');
     }
 
@@ -107,7 +152,7 @@ class TaiKhoanController extends Controller
                 return redirect()->route('trang-chu.home');
             } elseif (Auth::user()->trang_thai == 2) {
                 Auth::logout();
-                return redirect()->back()->with('error', 'Tài khoản của bạn chưa được xác thực !')->withInput();;
+                return redirect()->back()->with('error', 'Tài khoản của bạn chưa được xác thực !')->withInput();
             } else {
                 Auth::logout();
                 return redirect()->back()->with('error', 'Tài khoản của bạn đã bị khóa ! Xin vui lòng đăng nhập bằng tài khoản khác.');
@@ -150,7 +195,7 @@ class TaiKhoanController extends Controller
         }
 
         if (User::where('email_verification_token', $token)
-            ->whereNull('email_verified_at')->update(['email_verified_at' => now(), 'email_verification_token' => null])
+            ->whereNull('email_verified_at')->update(['email_verified_at' => now(), 'email_verification_token' => null, 'trang_thai'=>0])
         ) {
             return redirect()->route('tai-khoan.dang-nhap')
                 ->with('success', 'Email đã được xác nhận thành công! Mời bạn đăng nhập.');
@@ -163,7 +208,6 @@ class TaiKhoanController extends Controller
 
         if ($user) {
             $user->email_verification_token = Str::random(10);
-            $user->trang_thai = 0;
             $user->save();
 
             Mail::to($user->email)->send(new UserRegistered($user));
@@ -179,4 +223,5 @@ class TaiKhoanController extends Controller
         Auth::logout();
         return redirect()->route('tai-khoan.dang-nhap');
     }
+
 }

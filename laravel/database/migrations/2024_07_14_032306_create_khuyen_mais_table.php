@@ -14,11 +14,14 @@ return new class extends Migration
         Schema::create('khuyen_mais', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('san_pham_id');
-            $table->Integer('giam_gia')->default(0);
+            $table->string('ma_giam_gia');
+            $table->unsignedInteger('phan_tram_giam')->default(0);
+            $table->date('ngay_bat_dau')->nullable(); // Ngày bắt đầu khuyến mại
+            $table->date('ngay_ket_thuc')->nullable(); // Ngày kết thúc khuyến mại
+            $table->string('mo_ta')->nullable(); // Mô tả khuyến mại
             $table->timestamps();
 
-            //
-            $table->foreign('san_pham_id')->references('id')->on('san_phams');
+            $table->foreign('san_pham_id')->references('id')->on('san_phams')->onDelete('cascade');
         });
     }
 

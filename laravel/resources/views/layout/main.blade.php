@@ -69,11 +69,11 @@
                             <a href="#" class="header-icon clickable" title="login"><i class="icon-user-2"></i></a>
                             <div class="user-menu-content">
                                 @if (Auth::check())
-                                    <a href="">Thông tin tài khoản</a>
+                                    <a href="{{route('tai-khoan.thong-tin-tai-khoan')}}">Thông tin tài khoản</a>
                                     @if (Auth::user()->role==0)
                                         <a href="{{route('admin.index')}}">Đăng nhập Admin</a>
                                     @endif
-                                    <a href="">Đơn mua</a>
+                                    <a href="{{route('gio-hang.don-mua')}}">Đơn mua</a>
                                     <a href="{{route('tai-khoan.dang-xuat')}}">Đăng xuất</a>
                                 @else
                                     <a href="{{ route('tai-khoan.dang-nhap') }}">Đăng nhập</a>
@@ -84,10 +84,17 @@
                         </div>
 
                         <div class="dropdown cart-dropdown">
-                            <a href="{{route('gio-hang.show')}}" title="Cart" class="dropdown-toggle cart-toggle">
-                                <i class="minicart-icon"></i>
-                                <span class="cart-count badge-circle">3</span>
-                            </a>
+                            @if (Auth::check())
+                                <a href="{{route('gio-hang.show')}}" title="Cart" class="dropdown-toggle cart-toggle">
+                                    <i class="minicart-icon"></i>
+                                    <span class="cart-count badge-circle">{{$gio_hangs_count}}</span>
+                                </a>
+                            @else
+                                <a href="{{route('tai-khoan.dang-nhap')}}" title="Cart" class="dropdown-toggle cart-toggle">
+                                    <i class="minicart-icon"></i>
+                                </a>
+                            @endif
+
                         </div>
                         <!-- End .dropdown -->
                     </div>
@@ -124,7 +131,9 @@
             <!-- End .header-bottom -->
         </header>
         <!-- End .header -->
-
+        <div class="message-container" id="thongbaothemgiohang">
+            <div id="cart-message">Sản phẩm đã được thêm vào giỏ hàng !</div>
+        </div>
 <!-- container -->
 @yield('container')
 <!-- end container -->
@@ -211,7 +220,7 @@
     <a id="scroll-top" href="#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
 
     <!-- Plugins JS File -->
-    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="{{asset('assets/js/jquery.min.js')}} "></script>
+    <script src="{{asset('assets/js/jquery.min.js')}} "></script>
     <script src="{{asset('assets/js/bootstrap.bundle.min.js')}} "></script>
     <script src="{{asset('assets/js/optional/isotope.pkgd.min.js')}} "></script>
     <script src="{{asset('assets/js/plugins.min.js')}} "></script>

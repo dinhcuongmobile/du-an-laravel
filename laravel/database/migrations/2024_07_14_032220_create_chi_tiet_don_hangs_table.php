@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('san_pham_id');
             $table->unsignedInteger('so_luong');
             $table->double('don_gia',10,2);
-            $table->double('thanh_tien',10,2);
+            $table->double('thanh_tien',20,2);
             $table->timestamps();
 
             //

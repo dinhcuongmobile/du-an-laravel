@@ -129,97 +129,113 @@
 
     <section class="featured-products-section">
         <div class="container">
-            <h2 class="section-title heading-border ls-20 border-0">SẢN PHẨM TIÊU BIỂU</h2>
+            <form>
+                <h2 class="section-title heading-border ls-20 border-0">SẢN PHẨM TIÊU BIỂU</h2>
 
-            <div class="products-slider custom-products owl-carousel owl-theme nav-outer show-nav-hover nav-image-center" data-owl-options="{
-                'dots': true,
-                'nav': true
-            }">
-                @foreach ($san_pham_noi_bat as $item)
-                <div class="product-default appear-animate" data-animation-name="fadeInRightShorter">
-                    <figure>
-                        <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">
-                            <img src="{{Storage::url($item->hinh_anh)}}" width="280" height="280" alt="product">
-                        </a>
-                        <div class="label-group">
-                            <div class="product-label label-hot">HOT</div>
-                            <div class="product-label label-sale">-{{$item->khuyen_mai}}%</div>
+                <div class="products-slider custom-products owl-carousel owl-theme nav-outer show-nav-hover nav-image-center" data-owl-options="{
+                    'dots': true,
+                    'nav': true
+                }">
+                    @foreach ($san_pham_noi_bat as $item)
+                    <div class="product-default appear-animate" data-animation-name="fadeInRightShorter">
+                        <figure>
+                            <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">
+                                <img src="{{Storage::url($item->hinh_anh)}}" width="280" height="280" alt="product">
+                            </a>
+                            <div class="label-group">
+                                <div class="product-label label-hot">HOT</div>
+                                <div class="product-label label-sale">-{{$item->khuyen_mai}}%</div>
+                            </div>
+                        </figure>
+                        <div class="product-details">
+                            <div class="category-list">
+                                <a href="{{route('san-pham.san-pham-danh-muc',$item->danh_muc_id)}}" class="product-category">Category</a>
+                            </div>
+                            <h3 class="product-title">
+                                <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">{{$item->ten_san_pham}}</a>
+                            </h3>
+                            <!-- End .product-container -->
+                            <div class="price-box">
+                                <del class="old-price">{{number_format($item->gia_san_pham, 0, ',', '.')}}đ</del>
+                                <span class="product-price">{{number_format($item->gia_khuyen_mai, 0, ',', '.')}}đ</span>
+                            </div>
+                            <!-- End .price-box -->
+                            <div class="product-action">
+
+                                @if ($item->so_luong>0)
+                                <input type="hidden"  name="_token" value="{{ csrf_token() }}" />
+                                    <button data-id="{{$item->id}}" onclick="themGioHang({{$item->id}},{{$item->gia_khuyen_mai}})" class="btn-icon btn-add-cart product-type-simple"><i class="icon-shopping-cart"></i><span>Thêm vào giỏ hàng</span></button>
+                                @else
+                                <button class="btn-icon btn-add-cart product-type-simple" disabled><span>Tạm thời hết hàng</span></button>
+                                @endif
+
+                            </div>
                         </div>
-                    </figure>
-                    <div class="product-details">
-                        <div class="category-list">
-                            <a href="{{route('san-pham.san-pham-danh-muc',$item->danh_muc_id)}}" class="product-category">Category</a>
-                        </div>
-                        <h3 class="product-title">
-                            <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">{{$item->ten_san_pham}}</a>
-                        </h3>
-                        <!-- End .product-container -->
-                        <div class="price-box">
-                            <del class="old-price">{{number_format($item->gia_san_pham, 0, ',', '.')}}đ</del>
-                            <span class="product-price">{{number_format($item->gia_khuyen_mai, 0, ',', '.')}}đ</span>
-                        </div>
-                        <!-- End .price-box -->
-                        <div class="product-action">
-                            <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                    class="icon-shopping-cart"></i><span>Thêm vào giỏ hàng</span></a>
-                        </div>
+                        <!-- End .product-details -->
                     </div>
-                    <!-- End .product-details -->
+                    @endforeach
                 </div>
-                @endforeach
-            </div>
+            </form>
             <!-- End .featured-proucts -->
         </div>
     </section>
 
     <section class="new-products-section">
         <div class="container">
-            <h2 class="section-title heading-border ls-20 border-0">SẢN PHẨM MỚI NHẤT</h2>
+            <form>
+                <h2 class="section-title heading-border ls-20 border-0">SẢN PHẨM MỚI NHẤT</h2>
 
-            <div class="products-slider custom-products owl-carousel owl-theme nav-outer show-nav-hover nav-image-center mb-2" data-owl-options="{
-                'dots': true,
-                'nav': true,
-                'responsive': {
-                    '992': {
-                        'items': 4
-                    },
-                    '1200': {
-                        'items': 5
+                <div class="products-slider custom-products owl-carousel owl-theme nav-outer show-nav-hover nav-image-center mb-2" data-owl-options="{
+                    'dots': true,
+                    'nav': true,
+                    'responsive': {
+                        '992': {
+                            'items': 4
+                        },
+                        '1200': {
+                            'items': 5
+                        }
                     }
-                }
-            }">
-                @foreach ($san_pham_moi_nhat as $item)
-                <div class="product-default appear-animate" data-animation-name="fadeInRightShorter">
-                    <figure>
-                        <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">
-                            <img src="{{Storage::url($item->hinh_anh)}}" width="220" height="220" alt="product">
-                        </a>
-                        <div class="label-group">
-                            <div class="product-label label-sale">-{{$item->khuyen_mai}}%</div>
+                }">
+                    @foreach ($san_pham_moi_nhat as $item)
+                    <div class="product-default appear-animate" data-animation-name="fadeInRightShorter">
+                        <figure>
+                            <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">
+                                <img src="{{Storage::url($item->hinh_anh)}}" width="220" height="220" alt="product">
+                            </a>
+                            <div class="label-group">
+                                <div class="product-label label-sale">-{{$item->khuyen_mai}}%</div>
+                            </div>
+                        </figure>
+                        <div class="product-details">
+                            <div class="category-list">
+                                <a href="{{route('san-pham.san-pham-danh-muc',$item->danh_muc_id)}}" class="product-category">Category</a>
+                            </div>
+                            <h3 class="product-title">
+                                <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">{{$item->ten_san_pham}}</a>
+                            </h3>
+                            <!-- End .product-container -->
+                            <div class="price-box">
+                                <del class="old-price">{{number_format($item->gia_san_pham, 0, ',', '.')}}đ</del>
+                                <span class="product-price">{{number_format($item->gia_khuyen_mai, 0, ',', '.')}}đ</span>
+                            </div>
+                            <!-- End .price-box -->
+                            <div class="product-action">
+
+                                @if ($item->so_luong>0)
+                                    <input type="hidden"  name="_token" value="{{ csrf_token() }}" />
+                                    <button data-id="{{$item->id}}" onclick="themGioHang({{$item->id}},{{$item->gia_khuyen_mai}})" class="btn-icon btn-add-cart product-type-simple"><i class="icon-shopping-cart"></i><span>Thêm vào giỏ hàng</span></button>
+                                @else
+                                <button class="btn-icon btn-add-cart product-type-simple" disabled><span>Tạm thời hết hàng</span></button>
+                                @endif
+
+                            </div>
                         </div>
-                    </figure>
-                    <div class="product-details">
-                        <div class="category-list">
-                            <a href="{{route('san-pham.san-pham-danh-muc',$item->danh_muc_id)}}" class="product-category">Category</a>
-                        </div>
-                        <h3 class="product-title">
-                            <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">{{$item->ten_san_pham}}</a>
-                        </h3>
-                        <!-- End .product-container -->
-                        <div class="price-box">
-                            <del class="old-price">{{number_format($item->gia_san_pham, 0, ',', '.')}}đ</del>
-                            <span class="product-price">{{number_format($item->gia_khuyen_mai, 0, ',', '.')}}đ</span>
-                        </div>
-                        <!-- End .price-box -->
-                        <div class="product-action">
-                            <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                    class="icon-shopping-cart"></i><span>Thêm vào giỏ hàng</span></a>
-                        </div>
+                        <!-- End .product-details -->
                     </div>
-                    <!-- End .product-details -->
+                    @endforeach
                 </div>
-                @endforeach
-            </div>
+            </form>
             <!-- End .featured-proucts -->
 
             <div class="banner banner-big-sale appear-animate" data-animation-delay="200" data-animation-name="fadeInUpShorter" style="background: #2A95CB center/cover url('assets/images/demoes/demo4/banners/banner-4.jpg');">

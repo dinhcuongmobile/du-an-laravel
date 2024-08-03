@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminAuthenticate
+class CheckUserAuthenticate
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,11 @@ class AdminAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role == 0) {
+        if(Auth::user()){
+            return redirect()->route('trang-chu.home');
+        }else{
             return $next($request);
         }
-        return redirect()->route('tai-khoan.dang-nhap')->with('error', 'Bạn không có quyền truy cập trang Admin !');
+
     }
 }
