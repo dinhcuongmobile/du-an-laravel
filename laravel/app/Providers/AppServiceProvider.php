@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\DanhMuc;
+use App\Models\DonHang;
 use App\Models\GioHang;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,17 @@ class AppServiceProvider extends ServiceProvider
             }
             // Chia sẻ dữ liệu với view
             $view->with('danh_mucs', $danh_mucs);
-            });
+        });
+
+        //admin
+        View::composer('admin.layout.main', function ($view) {
+            // Lấy dữ liệu từ model
+            $sub=DonHang::where('trang_thai',0)->count();
+
+
+            // Chia sẻ dữ liệu với view
+            $view->with('sub', $sub);
+        });
 
     }
 }

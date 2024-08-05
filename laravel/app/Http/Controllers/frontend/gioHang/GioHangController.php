@@ -9,7 +9,9 @@ use App\Models\SanPham;
 use Illuminate\Http\Request;
 use App\Models\ChiTietDonHang;
 use App\Http\Controllers\Controller;
+use App\Mail\SendHoaDon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class GioHangController extends Controller
@@ -39,6 +41,15 @@ class GioHangController extends Controller
         return view('frontend.gioHang.chiTietThanhToan',$this->views);
     }
 
+    public function chiTietHuyDon(int $id){
+        $itemDonHang = $this->don_hangs->loadOneDonHang($id);
+        $chi_tiet_don_hangs = $this->chi_tiet_don_hangs->loadAllCTDH($id);
+
+        $this->views['itemDonHang']=$itemDonHang;
+        $this->views['chi_tiet_don_hangs']=$chi_tiet_don_hangs;
+        return view('frontend.gioHang.chiTietHuyDon',$this->views);
+    }
+
     //thanh toan online
     public function showThanhToanVNP(){
         if(empty(session()->get('gio_hangs', []))){
@@ -54,7 +65,72 @@ class GioHangController extends Controller
     }
 
     public function vnpay_create_payment(Request $request){
-        $this->views('frontend.gioHang.vnpay_php.vnpay_create_payment');
+        error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+
+        /**
+         *
+         *
+         * @author CTT VNPAY
+         */
+        $vnp_TmnCode = "ELVAQEWH"; //Mã định danh merchant kết nối (Terminal Id)
+        $vnp_HashSecret = "UMNOHDQWWDIRGSNATSWASPXTXOFSMHZR"; //Secret key
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = "http://127.0.0.1:8000/gio-hang/vnpay_return";
+        $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
+        $apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
+        //Config input format
+        //Expire
+        $startTime = date("YmdHis");
+        $expire = date('YmdHis',strtotime('+15 minutes',strtotime($startTime)));
+
+        $vnp_TxnRef = rand(1,10000); //Mã giao dịch thanh toán tham chiếu của merchant
+        $vnp_Amount = $_POST['amount']; // Số tiền thanh toán
+        $vnp_Locale = $_POST['language']; //Ngôn ngữ chuyển hướng thanh toán
+        $vnp_BankCode = $_POST['bankCode']; //Mã phương thức thanh toán
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR']; //IP Khách hàng thanh toán
+
+        $inputData = array(
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount* 100,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" =>  date("YmdHis"),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => "Thanh toan GD:" . $vnp_TxnRef,
+            "vnp_OrderType" => "other",
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+            "vnp_ExpireDate"=>$expire
+        );
+
+        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+            $inputData['vnp_BankCode'] = $vnp_BankCode;
+        }
+
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+        header('Location: ' . $vnp_Url);
+        die();
+
     }
 
     public function thanhToanOnline(Request $request){
@@ -308,6 +384,9 @@ class GioHangController extends Controller
                     SanPham::where('id',$item->san_pham_id)->update(['so_luong'=>$item->so_luong_sp-$item->so_luong]);
                     GioHang::where('tai_khoan_id', Auth::user()->id)->where('san_pham_id',$item->san_pham_id)->delete();
                 }
+                $don_hang=$this->don_hangs->loadOneDonHang($donHang->id);
+                $chi_tiet_don_hangs = $this->chi_tiet_don_hangs->loadAllCTDH($donHang->id);
+                Mail::to(Auth::user()->email)->send(new SendHoaDon($don_hang, $chi_tiet_don_hangs));
                 return redirect()->route('gio-hang.don-mua');
             }else{
                 $request->validate(
@@ -350,6 +429,9 @@ class GioHangController extends Controller
                     SanPham::where('id',$item->san_pham_id)->update(['so_luong'=>$item->so_luong_sp-$item->so_luong]);
                     GioHang::where('tai_khoan_id', Auth::user()->id)->where('san_pham_id',$item->san_pham_id)->delete();
                 }
+                $don_hang=$this->don_hangs->loadOneDonHang($donHang->id);
+                $chi_tiet_don_hangs = $this->chi_tiet_don_hangs->loadAllCTDH($donHang->id);
+                Mail::to(Auth::user()->email)->send(new SendHoaDon($don_hang, $chi_tiet_don_hangs));
                 return redirect()->route('gio-hang.don-mua');
             }
         }else{
@@ -420,6 +502,16 @@ class GioHangController extends Controller
             return redirect()->back()->with('success', 'Xóa thành công sản phẩm trong giỏ hàng !');
         }else{
             return redirect()->back()->with('error', 'Lỗi khi gửi dữ liệu ! Vui lòng thử lại sau ít phút.');
+        }
+    }
+
+    public function huyDonHang(int $id){
+        $don_hang=DonHang::where('id',$id)->first();
+        if($don_hang){
+            DonHang::where('id',$id)->update(['trang_thai'=>5]);
+            return redirect()->route('gio-hang.don-mua')->with('success', 'Hủy đơn thành công !');
+        }else{
+            return redirect()->route('gio-hang.don-mua')->with('error', 'Lỗi khi gửi dữ liệu ! Vui lòng thử lại sau ít phút.');
         }
     }
 

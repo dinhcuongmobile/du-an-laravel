@@ -6,9 +6,9 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <div class="float-right">
-                    <form action="{{ route('don-hang.danh-sach-da-huy') }}" method="GET">
+                    <form action="#" method="GET">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="kyw" placeholder="Tìm kiếm...">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm...">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
@@ -33,24 +33,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center align-middle"><input type="checkbox" name="select[]" id="" value=""></td>
-                                <td class="col-1 align-middle">DCM-'.$iddh.'</td>
-                                <td class="col-3 align-middle">
-                                    '.$hovatennhan.' <br>
-                                    '.$sodienthoainhan.' <br>
-                                    '.$email.' <br>
-                                    '.$diachinhan.'
-                                </td>
-                                <td class="text-center align-middle">'.$soluongct.'</td>
-                                <td  class="col-2 align-middle">111111111₫</td>
-                                <td  class="col-2 align-middle">'.$trangthai.'</td>
-                                <td class="col-2 align-middle">'.$ngaydathang.'</td>
-                            </tr>
+                            @foreach ($don_hangs as $item)
+                                @if ($item->trang_thai==5)
+                                    <tr>
+                                        <td class=" align-middle"><input type="checkbox" name="select[]"
+                                            value="{{ $item->id }}"></td>
+                                        <td class="col-1 align-middle">DH-{{$item->id}}</td>
+                                        <td class="align-middle">
+                                            {{$item->ho_ten_nhan}} <br>
+                                            {{$item->so_dt_nhan}} <br>
+                                            {{$item->email}} <br>
+                                            {{$item->dia_chi_nhan}}
+                                        </td>
+                                        <td class="col-1 text-center align-middle">{{$countDH[$item->id]}}</td>
+                                        <td  class="col-2 align-middle">{{number_format($item->tong_thanh_toan, 0, ',', '.')}}đ</td>
+                                        <td  class="col-2 align-middle text-success">Đã hủy</td>
+                                        <td class="col-2 align-middle">{{$item->ngay_dat_hang}}</td>
+                                    </tr>
+                                @endif
+                            @endforeach
                         </tbody>
                     </table>
                     <div class="phantrang">
-
+                        {{$don_hangs->links()}}
                     </div>
                 </div>
             </div>

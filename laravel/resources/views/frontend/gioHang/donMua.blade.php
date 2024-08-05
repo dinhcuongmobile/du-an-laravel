@@ -110,7 +110,7 @@
                                             </table>
                                             <div class="btnDonMua">
                                                 @if($itemDonHang->trang_thai==0 || $itemDonHang->trang_thai==1 || $itemDonHang->trang_thai==2)
-                                                    <a href="" style="text-decoration: none" class="btn">Hủy đơn hàng</a>
+                                                    <a href="{{route('gio-hang.huy-don-hang',$itemDonHang->id)}}" style="text-decoration: none" class="btn">Hủy đơn hàng</a>
                                                 @endif
                                                 @if($itemDonHang->trang_thai==3)
                                                     <input type="hidden"  name="_token" value="{{ csrf_token() }}" />
@@ -121,7 +121,7 @@
                                                     <button class="btn btnMuaLai">Mua lại</button>
                                                 @endif
                                                 @if($itemDonHang->trang_thai==5)
-                                                    <a href="" style="text-decoration: none" class="btn">Xem chi tiết hủy đơn</a>
+                                                    <a href="{{route('gio-hang.chi-tiet-huy-don',$itemDonHang->id)}}" style="text-decoration: none" class="btn">Xem chi tiết hủy đơn</a>
                                                     <button class="btn btnMuaLai">Mua lại</button>
                                                 @endif
                                             </div>
@@ -198,7 +198,7 @@
                                                 </tfoot>
                                             </table>
                                             <div class="btnDonMua">
-                                                <a href="" style="text-decoration: none" class="btn">Hủy đơn hàng</a>
+                                                <a href="{{route('gio-hang.huy-don-hang',$itemDonHang->id)}}" style="text-decoration: none" class="btn">Hủy đơn hàng</a>
                                             </div>
                                         </div><!-- End .cart-table-container -->
                                     </div><!-- End .col-lg-8 -->
@@ -281,7 +281,7 @@
                                             </table>
                                             <div class="btnDonMua">
                                                 @if($itemDonHang->trang_thai==1)
-                                                    <a href="" style="text-decoration: none" class="btn">Hủy đơn hàng</a>
+                                                    <a href="{{route('gio-hang.huy-don-hang',$itemDonHang->id)}}" style="text-decoration: none" class="btn">Hủy đơn hàng</a>
                                                 @endif
                                             </div>
                                         </div><!-- End .cart-table-container -->
@@ -501,7 +501,7 @@
                                                 </tfoot>
                                             </table>
                                             <div class="btnDonMua">
-                                                <a href="" style="text-decoration: none" class="btn">Xem chi tiết hủy đơn</a>
+                                                <a href="{{route('gio-hang.chi-tiet-huy-don',$itemDonHang->id)}}" style="text-decoration: none" class="btn">Xem chi tiết hủy đơn</a>
                                                 <button class="btn btnMuaLai">Mua lại</button>
                                             </div>
                                         </div><!-- End .cart-table-container -->

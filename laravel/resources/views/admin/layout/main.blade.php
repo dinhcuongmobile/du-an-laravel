@@ -18,7 +18,6 @@
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="{{asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
     <link href="{{asset('admin/css/style.css')}}" rel="stylesheet">
@@ -122,7 +121,11 @@
                 <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{route('don-hang.danh-sach-don-hang')}}">Danh sách đơn hàng</a>
-                        <a class="collapse-item" href="{{route('don-hang.danh-sach-kiem-duyet')}}">Kiểm duyệt đơn hàng</a>
+                        <a class="collapse-item" href="{{route('don-hang.danh-sach-kiem-duyet')}}">Kiểm duyệt đơn hàng
+                            @if ($sub>0)
+                                <sup style="color: red"><i class="fas fa-fw fa-circle" style="color: red;"></i></sup>
+                            @endif
+                        </a>
                         <a class="collapse-item" href="{{route('don-hang.danh-sach-da-giao')}}">Danh sách đã giao</a>
                         <a class="collapse-item" href="{{route('don-hang.danh-sach-da-huy')}}">Danh sách đã hủy</a>
                     </div>
@@ -250,6 +253,7 @@
     <!-- Custom scripts for all pages-->
     <script src="{{asset('admin/js/sb-admin-2.min.js')}}"></script>
     <script src="{{asset('admin/js/main.js')}}"></script>
+    @yield('scripts')
 
     <!-- Page level plugins -->
     <!-- <script src="{{asset('admin/vendor/chart.js/Chart.min.js')}}"></script> -->

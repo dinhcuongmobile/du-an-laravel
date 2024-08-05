@@ -3,12 +3,22 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
         <h1 class="h3 mb-2 text-gray-800 mb-5">Duyệt đơn hàng</h1>
+        @if (session('success'))
+            <div class="alert alert-success" id="error-alert">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger" id="error-alert">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <div class=" float-right">
-                    <form action="{{ route('don-hang.danh-sach-kiem-duyet') }}" method="GET">
+                    <form action="#" method="GET">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="kyw" placeholder="Tìm kiếm...">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm...">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
@@ -17,14 +27,12 @@
                         </div>
                     </form>
                 </div>
-                <form action="" method="post">
+                <form action="{{ route('don-hang.duyet-nhieu-don-hang') }}" method="post">
                     @csrf
                     <div class="float-left">
                         <button type="button" class="btn btn-secondary btn-sm" onclick="chontatca()">Chọn tất cả</button>
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="bochontatca()">Bỏ chọn tất
-                            cả</button>
-                        <button type="submit" name="xoacacmucchon" class="btn btn-secondary btn-sm">Duyệt các mục đã
-                            chọn</button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="bochontatca()">Bỏ chọn tất cả</button>
+                        <button type="submit" class="btn btn-secondary btn-sm">Duyệt các đơn hàng đã chọn</button>
                     </div>
             </div>
             <div class="card-body">
@@ -43,28 +51,34 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center align-middle"><input type="checkbox" name="select[]" id=""
-                                        value=""></td>
-                                <td class="col-1 align-middle">DCM-'.$iddh.'</td>
-                                <td class="col-3 align-middle">
-                                    '.$hovatennhan.' <br>
-                                    '.$sodienthoainhan.' <br>
-                                    '.$email.' <br>
-                                    '.$diachinhan.'
-                                </td>
-                                <td class="text-center align-middle">'.$soluongct.'</td>
-                                <td class="col-2 align-middle">111111111₫</td>
-                                <td class="col-2 align-middle">'.$ngaydathang.'</td>
-                                <td class="col-2 align-middle '.$class.'">'.$thanhtoan.'</td>
-                                <td class="col-2 align-middle"><a href=""><button type="button"
-                                            class="btn btn-secondary btn-sm">Duyệt</button></a> |
-                                    <a href=""><button type="button"
-                                            class="btn btn-secondary btn-sm">Hủy</button></a>
-                                </td>
-                            </tr>
+                            @foreach ($don_hangs as $item)
+                                @if ($item->trang_thai==0)
+                                    <tr>
+                                        <td class=" align-middle"><input type="checkbox" name="select[]"
+                                            value="{{ $item->id }}"></td>
+                                        <td class="col-1 align-middle">DH-{{$item->id}}</td>
+                                        <td class="col-3 align-middle">
+                                            {{$item->ho_ten_nhan}} <br>
+                                            {{$item->so_dt_nhan}} <br>
+                                            {{$item->email}} <br>
+                                            {{$item->dia_chi_nhan}}
+                                        </td>
+                                        <td class="text-center align-middle">{{$countDH[$item->id]}}</td>
+                                        <td  class="col-1 align-middle">{{number_format($item->tong_thanh_toan, 0, ',', '.')}}đ</td>
+                                        <td class="col-2 align-middle">{{$item->ngay_dat_hang}}</td>
+                                        @if ($item->thanh_toan==0)
+                                            <td  class="col-2 align-middle text-danger">Chưa thanh toán</td>
+                                        @else
+                                            <td  class="col-2 align-middle text-success">Đã thanh toán</td>
+                                        @endif
+                                        <td class="col-2 align-middle text-center"><a href="{{route('don-hang.duyet-don-hang',$item->id)}}" class="btn btn-secondary btn-sm">Duyệt</a> <br><br>
+                                            <a href="{{route('don-hang.huy-don-hang',$item->id)}}" class="btn btn-secondary btn-sm">Hủy</a></td>
+                                    </tr>
+                                @endif
+                            @endforeach
                         </tbody>
                     </table>
+                    {{$don_hangs->links()}}
                 </div>
             </div>
         </div>

@@ -3,12 +3,22 @@
  <!-- Begin Page Content -->
  <div class="container-fluid">
     <h1 class="h3 mb-2 text-gray-800 mb-5">Danh sách đơn hàng</h1>
+    @if (session('success'))
+            <div class="alert alert-success" id="error-alert">
+                {{ session('success') }}
+            </div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger" id="error-alert">
+            {{ session('error') }}
+        </div>
+    @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <div class="float-right">
-                    <form action="{{ route('don-hang.danh-sach-don-hang') }}" method="GET">
+                    <form action="#" method="GET">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="kyw" placeholder="Tìm kiếm...">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm...">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
@@ -46,13 +56,12 @@
                                         </td>
                                         <td class="text-center align-middle">{{$countDH[$item->id]}}</td>
                                         <td  class="col-1 align-middle">{{number_format($item->tong_thanh_toan, 0, ',', '.')}}đ</td>
-                                        <td  class="col-2 align-middle">'.$trangthai.'</td>
-                                        @if ()
-
-                                        @elseif
-
-                                        @else
-
+                                        @if ($item->trang_thai==1)
+                                            <td  class="col-2 align-middle text-success">Đơn hàng mới</td>
+                                        @elseif ($item->trang_thai==2)
+                                            <td  class="col-2 align-middle text-success">Chuẩn bị giao cho đơn vị vận chuyển</td>
+                                        @elseif ($item->trang_thai==3)
+                                            <td  class="col-2 align-middle text-success">Đang giao hàng</td>
                                         @endif
                                         <td class="col-2 align-middle">{{$item->ngay_dat_hang}}</td>
                                         @if ($item->thanh_toan==0)
@@ -60,22 +69,14 @@
                                         @else
                                             <td  class="col-2 align-middle text-success">Đã thanh toán</td>
                                         @endif
-                                        <td class="col-2 align-middle"><a href=""><button type="button" class="btn btn-secondary btn-sm">Update</button></a> <br><br>
-                                            <a href=""><button type="button" class="btn btn-secondary btn-sm">Hủy</button></a></td>
+                                        <td class="col-2 align-middle"><a href="{{route('don-hang.cap-nhat-don-hang',$item->id)}}" class="btn btn-secondary btn-sm">Update</a> <br><br>
+                                            <a href="{{route('don-hang.huy-don-hang',$item->id)}}" class="btn btn-secondary btn-sm">Hủy</a></td>
                                     </tr>
                                 @endif
                             @endforeach
                         </tbody>
                     </table>
-                    <!-- <div class="phantrang">
-                        <ul>
-                            <li><a class="active" href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">...</a></li>
-                            <li><a href="#">Next</a></li>
-                        </ul>
-                    </div> -->
+                    {{$don_hangs->links()}}
                 </div>
             </div>
     </div>

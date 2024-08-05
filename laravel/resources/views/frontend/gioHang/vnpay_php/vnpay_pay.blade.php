@@ -10,6 +10,7 @@
         <title>Tạo mới đơn hàng</title>
         <!-- Bootstrap core CSS -->
         <link href="assets/bootstrap.min.css" rel="stylesheet"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <!-- Custom styles for this template -->
         <link href="assets/jumbotron-narrow.css" rel="stylesheet">
         <script src="assets/jquery-1.11.3.min.js"></script>
@@ -31,29 +32,31 @@
     <div class="cart-area pt-100 pb-100">
         <div class="container">
             <h3>Tạo mới đơn hàng</h3>
-            <div class="table-responsive">
-                <form action="{{route('gio-hang.vnpay_create_payment')}}" id="frmCreateOrder" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <label for="amount" class="form-label">Số tiền</label>
-                        <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" name="amount" type="text" value="{{$tongthanhtoan}}" onkeydown="return false"/>
-                    </div>
-                     <h4>Phương thức thanh toán</h4>
-                    <div class="form-group">
-                        <h5>Chuyển hướng sang Cổng VNPAY chọn phương thức thanh toán</h5>
-                       <input type="radio" Checked="True" id="bankCode" name="bankCode" value="">
-                       <label for="bankCode">Cổng thanh toán VNPAYQR</label><br>
-                    </div>
-                    <div class="form-group">
-                        <h5>Chọn ngôn ngữ giao diện thanh toán:</h5>
-                         <input type="radio" id="language" Checked="True" name="language" value="vn">
-                         <label for="language">Tiếng việt</label><br>
-                         <input type="radio" id="language" name="language" value="en">
-                         <label for="language">Tiếng anh</label><br>
+            <div class="table-responsive mt-3 card">
+                <div class="card-body border">
+                    <form action="{{route('gio-hang.vnpay_create_payment')}}" id="frmCreateOrder" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <label for="amount" class="form-label">Số tiền</label>
+                            <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" name="amount" type="text" value="{{$tongthanhtoan}}" onkeydown="return false"/>
+                        </div>
+                         <h4>Phương thức thanh toán</h4>
+                        <div class="form-group">
+                            <h5>Chuyển hướng sang Cổng VNPAY chọn phương thức thanh toán</h5>
+                           <input type="radio" Checked="True" id="bankCode" name="bankCode" value="">
+                           <label for="bankCode">Cổng thanh toán VNPAYQR</label><br>
+                        </div>
+                        <div class="form-group">
+                            <h5>Chọn ngôn ngữ giao diện thanh toán:</h5>
+                             <input type="radio" id="language" Checked="True" name="language" value="vn">
+                             <label for="language">Tiếng việt</label><br>
+                             <input type="radio" id="language" name="language" value="en">
+                             <label for="language">Tiếng anh</label><br>
 
-                    </div>
-                    <button type="submit" class="btn btn-default" href>Tiếp tục</button>
-                </form>
+                        </div>
+                        <button type="submit" class="btn btn-info mt-4" href>Tiếp tục</button>
+                    </form>
+                </div>
             </div>
             <p>
                 &nbsp;

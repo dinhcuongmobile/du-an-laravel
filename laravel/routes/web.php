@@ -72,6 +72,8 @@ Route::prefix('gio-hang')->middleware('auth')->group(function(){
     Route::post('them-gio-hang', [GioHangController::class,'addGioHang'])->name('gio-hang.them-gio-hang');
     Route::post('them-gio-hang-chi-tiet', [GioHangController::class,'themGioHangChiTiet'])->name('gio-hang.them-gio-hang-chi-tiet');
     Route::put('cap-nhat-gio-hang/{id}', [GioHangController::class,'capNhatGioHang'])->name('gio-hang.cap-nhat-gio-hang');
+    Route::get('huy-don-hang/{id}', [GioHangController::class,'huyDonHang'])->name('gio-hang.huy-don-hang');
+    Route::get('chi-tiet-huy-don/{id}', [GioHangController::class,'chiTietHuyDon'])->name('gio-hang.chi-tiet-huy-don');
 
 });
 
@@ -196,6 +198,13 @@ Route::prefix('admin')->middleware('admin')->group(function(){
         Route::get('danh-sach-da-huy', [DonHangAdminController::class,'showDSDaHuy'])->name('don-hang.danh-sach-da-huy');
         Route::get('danh-sach-don-hang', [DonHangAdminController::class,'showDSDonHang'])->name('don-hang.danh-sach-don-hang');
         Route::get('danh-sach-kiem-duyet', [DonHangAdminController::class,'showDSKiemDuyet'])->name('don-hang.danh-sach-kiem-duyet');
+        Route::get('chi-tiet-don-hang/{id}', [DonHangAdminController::class,'showChiTietDonHang'])->name('don-hang.chi-tiet-don-hang');
+        Route::post('duyet-nhieu-don-hang', [DonHangAdminController::class,'duyetNhieuDonHang'])->name('don-hang.duyet-nhieu-don-hang');
+        Route::get('duyet-don-hang/{id}', [DonHangAdminController::class,'duyetDonHang'])->name('don-hang.duyet-don-hang');
+        Route::get('huy-don-hang/{id}', [DonHangAdminController::class,'huyDonHang'])->name('don-hang.huy-don-hang');
+        Route::get('cap-nhat-don-hang/{id}', [DonHangAdminController::class,'showCapNhatDonHang'])->name('don-hang.cap-nhat-don-hang');
+        Route::put('cap-nhat-don-hang/{id}', [DonHangAdminController::class,'capNhatDonHang'])->name('don-hang.cap-nhat-don-hang');
+        Route::get('in-hoa-don/{id}', [DonHangAdminController::class,'inHoaDon'])->name('don-hang.in-hoa-don');
     });
 
 });

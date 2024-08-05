@@ -29,12 +29,21 @@ class DonHang extends Model
     public function loadDHAdmin(){
         $query=DB::table('don_hangs')
         ->join('users','don_hangs.tai_khoan_id','=','users.id')
-        ->select('don_hangs.*', 'users.email')
+        ->select('don_hangs.*', 'users.email', 'users.ho_va_ten', 'users.so_dien_thoai', 'users.dia_chi')
         ->paginate(10);
 
         return $query;
     }
 
+    public function loadOneDonHang($id){
+        $query=DB::table('don_hangs')
+        ->join('users','don_hangs.tai_khoan_id','=','users.id')
+        ->select('don_hangs.*', 'users.email', 'users.ho_va_ten', 'users.so_dien_thoai', 'users.dia_chi')
+        ->where('don_hangs.id',$id)
+        ->first();
+
+        return $query;
+    }
     //end admin
     public function loadAllDonHang(){
         $query=DB::table('don_hangs')
