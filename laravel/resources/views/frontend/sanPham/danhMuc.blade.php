@@ -41,7 +41,7 @@
                             <div class="col-6 col-sm-4">
                                 <div class="product-default">
                                     <figure>
-                                        <a href="product.html">
+                                        <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">
                                             <img src="{{Storage::url($item->hinh_anh)}} " width="280" height="280" alt="product" />
                                         </a>
 
@@ -58,7 +58,7 @@
                                             </div>
                                         </div>
 
-                                        <h3 class="product-title"> <a href="product.html">{{$item->ten_san_pham}}</a> </h3>
+                                        <h3 class="product-title"> <a href="{{route('san-pham.chi-tiet-san-pham',$item->id)}}">{{$item->ten_san_pham}}</a> </h3>
 
                                         <!-- End .product-container -->
 
@@ -69,8 +69,14 @@
                                         <!-- End .price-box -->
 
                                         <div class="product-action">
-                                            <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                                    class="icon-shopping-cart"></i><span>Thêm vào giỏ hàng</span></a>
+
+                                            @if ($item->so_luong>0)
+                                                <input type="hidden"  name="_token" value="{{ csrf_token() }}" />
+                                                <button data-id="{{$item->id}}" onclick="themGioHang({{$item->id}},{{$item->gia_khuyen_mai}})" class="btn-icon btn-add-cart product-type-simple"><i class="icon-shopping-cart"></i><span>Thêm vào giỏ hàng</span></button>
+                                            @else
+                                            <button class="btn-icon btn-add-cart product-type-simple" disabled><span>Tạm thời hết hàng</span></button>
+                                            @endif
+
                                         </div>
                                     </div>
                                     <!-- End .product-details -->
@@ -120,20 +126,22 @@
 
                                 <div class="collapse show" id="widget-body-3">
                                     <div class="widget-body pb-0">
-                                        <form action="" method="get">
+                                        <form action="{{route('san-pham.danh-muc')}}" method="get">
                                             <div class="price-slider-wrapper">
-                                                <div id="price-slider"></div>
+                                                <div id="priceSlider"></div>
                                             </div>
 
                                             <div class="filter-price-action d-flex align-items-center justify-content-between flex-wrap">
-                                                <div class="filter-price-text">
+                                                <div class="filter-price-text" style="width: 240px">
                                                     Giá:
-                                                    <span id="filter-price-range">0₫ - 10,000,000₫</span>
+                                                    <span id="filterPriceRange">0₫ - 100,000,000₫</span>
                                                 </div>
 
-                                                <input type="hidden" name="min_price" id="min-price" value="0">
-                                                <input type="hidden" name="max_price" id="max-price" value="10000000">
-                                                <button type="submit" class="btn btn-primary">Lọc</button>
+                                                <div class="mt-2">
+                                                    <input type="hidden" name="min_price" id="minPrice" value="{{$minPrice}}">
+                                                    <input type="hidden" name="max_price" id="maxPrice" value="{{$maxPrice}}">
+                                                    <button type="submit" name="locTheoGia" class="btn btn-primary">Lọc</button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>

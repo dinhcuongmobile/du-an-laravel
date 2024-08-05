@@ -34,22 +34,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="col-1 align-middle">DCM-'.$iddh.'</td>
-                                <td class="col-3 align-middle">
-                                    '.$hovatennhan.' <br>
-                                    '.$sodienthoainhan.' <br>
-                                    '.$email.' <br>
-                                    '.$diachinhan.'
-                                </td>
-                                <td class="text-center align-middle">'.$soluongct.'</td>
-                                <td  class="col-1 align-middle">11111111₫</td>
-                                <td  class="col-2 align-middle">'.$trangthai.'</td>
-                                <td class="col-2 align-middle">'.$ngaydathang.'</td>
-                                <td  class="col-2 align-middle '.$class.'">'.$thanhtoan.'</td>
-                                <td class="col-2 align-middle"><a href=""><button type="button" class="btn btn-secondary btn-sm">Update</button></a> <br><br>
-                                    <a href=""><button type="button" class="btn btn-secondary btn-sm">Hủy</button></a></td>
-                            </tr>
+                            @foreach ($don_hangs as $item)
+                                @if ($item->trang_thai==1 || $item->trang_thai==2 || $item->trang_thai==3)
+                                    <tr>
+                                        <td class="col-1 align-middle">DH-{{$item->id}}</td>
+                                        <td class="col-3 align-middle">
+                                            {{$item->ho_ten_nhan}} <br>
+                                            {{$item->so_dt_nhan}} <br>
+                                            {{$item->email}} <br>
+                                            {{$item->dia_chi_nhan}}
+                                        </td>
+                                        <td class="text-center align-middle">{{$countDH[$item->id]}}</td>
+                                        <td  class="col-1 align-middle">{{number_format($item->tong_thanh_toan, 0, ',', '.')}}đ</td>
+                                        <td  class="col-2 align-middle">'.$trangthai.'</td>
+                                        @if ()
+
+                                        @elseif
+
+                                        @else
+
+                                        @endif
+                                        <td class="col-2 align-middle">{{$item->ngay_dat_hang}}</td>
+                                        @if ($item->thanh_toan==0)
+                                            <td  class="col-2 align-middle text-danger">Chưa thanh toán</td>
+                                        @else
+                                            <td  class="col-2 align-middle text-success">Đã thanh toán</td>
+                                        @endif
+                                        <td class="col-2 align-middle"><a href=""><button type="button" class="btn btn-secondary btn-sm">Update</button></a> <br><br>
+                                            <a href=""><button type="button" class="btn btn-secondary btn-sm">Hủy</button></a></td>
+                                    </tr>
+                                @endif
+                            @endforeach
                         </tbody>
                     </table>
                     <!-- <div class="phantrang">

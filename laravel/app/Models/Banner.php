@@ -10,6 +10,12 @@ class Banner extends Model
 {
     use HasFactory;
 
+    protected $table = 'banners';
+    protected $fillable = [
+        'san_pham_id',
+        'hinh_anh',
+    ];
+    public $timestamps = false;
     public function loadAllBanners(){
         $query = DB::table('banners')
         ->orderBy('id','desc')

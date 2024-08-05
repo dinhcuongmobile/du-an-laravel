@@ -65,17 +65,38 @@
                         </li>
 
                         <li>
+                            SL kho:
+                            @if ($san_pham->so_luong>0)
+                            <strong>{{$san_pham->so_luong}}</strong>
+                            @else
+                            <strong style="color: red">Hết hàng</strong>
+                            @endif
+                        </li>
+
+                        <li>
                             Category: <strong><a href="{{route('san-pham.san-pham-danh-muc',$san_pham->danh_muc_id)}}" class="product-category">{{$danh_muc->ten_danh_muc}}</a></strong>
                         </li>
                     </ul>
 
                     <div class="product-action">
-                        <div class="product-single-qty">
-                            <input class="horizontal-quantity form-control" type="text">
-                        </div>
-                        <!-- End .product-single-qty -->
+                        @if ($san_pham->so_luong>0)
+                           <form>
+                                <div class="row">
+                                    <div class="product-quality" style="margin-right: 15px">
+                                        <input type="hidden" name="so_luong_sp" value="{{$san_pham->so_luong}}">
+                                        <div  class="tru soLuong">-</div>
+                                        <input class="cart-plus-minus-box input-text qty text" id="soLuongChiTiet" name="soLuong" value="1" disabled>
+                                        <div  class="cong soLuong">+</div>
+                                    </div>
+                                    <!-- End .product-single-qty -->
+                                    <input type="hidden"  name="_token" value="{{ csrf_token() }}" />
+                                    <button onclick="themGioHangChiTiet({{$san_pham->id}},{{$san_pham->gia_khuyen_mai}})" class="btn btn-dark mr-2"><span>Thêm vào giỏ hàng</span></button>
+                                </div>
+                           </form>
+                        @else
+                            <button class="btn btn-dark mr-2" disabled><span>Tạm thời hết hàng</span></button>
+                        @endif
 
-                        <a href="" class="btn btn-dark add-cart mr-2" title="Add to Cart">Thêm vào giỏ hàng</a>
                     </div>
                     <!-- End .product-action -->
                 </div>
@@ -92,7 +113,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" id="product-tab-reviews" data-toggle="tab" href="#product-reviews-content" role="tab" aria-controls="product-reviews-content" aria-selected="false">Đánh giá (1)</a>
+                    <a class="nav-link" id="product-tab-reviews" data-toggle="tab" href="#product-reviews-content" role="tab" aria-controls="product-reviews-content" aria-selected="false">Đánh giá (<span id="countBinhLuan1">{{$count_binh_luan}}</span>)</a>
                 </li>
             </ul>
 
@@ -107,46 +128,55 @@
 
                 <div class="tab-pane fade" id="product-reviews-content" role="tabpanel" aria-labelledby="product-tab-reviews">
                     <div class="product-reviews-content">
-                        <h3 class="reviews-title">1 đánh giá cho {{$san_pham->ten_san_pham}}</h3>
+                        <h3 class="reviews-title"><span id="countBinhLuan2">{{$count_binh_luan}}</span> đánh giá cho {{$san_pham->ten_san_pham}}</h3>
+                        <div id="loadBinhLuan">
+                            @foreach ($binh_luans as $item)
+                                <div class="comment-list">
+                                    <div class="comments">
+                                        <figure class="img-thumbnail">
+                                            <img src="{{asset('assets/images/blog/avt_danh_gia.png')}}" alt="author" width="80" height="80">
+                                        </figure>
 
-                        <div class="comment-list">
-                            <div class="comments">
-                                <figure class="img-thumbnail">
-                                    <img src="{{asset('assets/images/blog/avt_danh_gia.png')}}" alt="author" width="80" height="80">
-                                </figure>
+                                        <div class="comment-block">
+                                            <div class="comment-header">
+                                                <div class="comment-arrow"></div>
 
-                                <div class="comment-block">
-                                    <div class="comment-header">
-                                        <div class="comment-arrow"></div>
+                                                <span class="comment-by">
+                                                    <strong>{{$item->ho_va_ten}}</strong> –
+                                                    {{ \Carbon\Carbon::parse($item->created_at)->format('M') }} {{ \Carbon\Carbon::parse($item->created_at)->format('d') }}, {{ \Carbon\Carbon::parse($item->created_at)->format('Y') }}
+                                                </span>
+                                            </div>
 
-                                        <span class="comment-by">
-                                            <strong>Joe Doe</strong> – April 12, 2018
-                                        </span>
-                                    </div>
-
-                                    <div class="comment-content">
-                                        <p>Excellent.</p>
+                                            <div class="comment-content">
+                                                <p>{{$item->noi_dung}}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
-
                         <div class="divider"></div>
 
-                        <div class="add-product-review">
-                            <h3 class="review-title">Đánh giá cho sản phẩm này</h3>
+                        @if (Auth::check())
+                            <div class="add-product-review">
+                                <h3 class="review-title">Đánh giá cho sản phẩm này</h3>
 
-                            <form action="#" class="comment-form m-0">
-                                <div class="form-group">
-                                    <label>Đánh giá của bạn <span class="text-danger">*</span></label>
-                                    <textarea cols="5" rows="6" class="form-control form-control-sm"></textarea>
-                                </div>
-                                <!-- End .form-group -->
-
-                                <input type="submit" class="btn btn-primary" value="Đánh giá">
-                            </form>
-                        </div>
+                                <form class="comment-form m-0">
+                                    <div class="form-group">
+                                        <label>Đánh giá của bạn <span class="text-danger">*</span></label>
+                                        <textarea id="noidung" cols="5" rows="6" class="form-control form-control-sm"></textarea>
+                                        <p id="binhluanErr" style="color:red;"></p>
+                                    </div>
+                                    <!-- End .form-group -->
+                                    <input id="ngaybinhluan" type="hidden" value="<?= date('Y-m-d H:i:s'); ?>">
+                                    <input type="hidden" id="binhLuanToken" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" id="hoTenBinhLuan" value="{{ Auth::user()->ho_va_ten }}">
+                                    <span class="btn btn-primary" onclick="binhLuan({{$san_pham->id}})">Đánh giá</span>
+                                </form>
+                            </div>
+                        @endif
                         <!-- End .add-product-review -->
+
                     </div>
                     <!-- End .product-reviews-content -->
                 </div>
@@ -185,8 +215,14 @@
                         </div>
                         <!-- End .price-box -->
                         <div class="product-action">
-                            <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                    class="icon-shopping-cart"></i><span>Thêm vào giỏ hàng</span></a>
+
+                            @if ($item->so_luong>0)
+                                <input type="hidden"  name="_token" value="{{ csrf_token() }}" />
+                                <button data-id="{{$item->id}}" onclick="themGioHang({{$item->id}},{{$item->gia_khuyen_mai}})" class="btn-icon btn-add-cart product-type-simple"><i class="icon-shopping-cart"></i><span>Thêm vào giỏ hàng</span></button>
+                            @else
+                            <button class="btn-icon btn-add-cart product-type-simple" disabled><span>Tạm thời hết hàng</span></button>
+                            @endif
+
                         </div>
                     </div>
                     <!-- End .product-details -->

@@ -10,6 +10,12 @@ class DanhMuc extends Model
 {
     use HasFactory;
 
+    protected $table = 'danh_mucs';
+    protected $fillable = [
+        'ten_danh_muc',
+    ];
+    public $timestamps = false;
+
     public function loadAllDanhMuc(){
         $query = DB::table('danh_mucs')
         ->orderBy('id','desc')

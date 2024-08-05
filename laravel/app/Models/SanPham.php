@@ -10,6 +10,21 @@ class SanPham extends Model
 {
     use HasFactory;
 
+    protected $table = 'san_phams';
+    protected $fillable = [
+        'danh_muc_id',
+        'ten_san_pham',
+        'gia_san_pham',
+        'gia_khuyen_mai',
+        'hinh_anh',
+        'so_luong',
+        'trang_thai',
+        'khuyen_mai',
+        'mo_ta',
+        'luot_xem',
+    ];
+    public $timestamps = false;
+
     public function loadAllSanPham(){
         $query=DB::table('san_phams')
         ->join('danh_mucs','san_phams.danh_muc_id','=','danh_mucs.id')
@@ -18,6 +33,17 @@ class SanPham extends Model
         ->paginate(10);
         return $query;
     }
+
+    public function locTheoGiaAll($minPrice, $maxPrice){
+        $query=DB::table('san_phams')
+        ->join('danh_mucs','san_phams.danh_muc_id','=','danh_mucs.id')
+        ->select('san_phams.*','danh_mucs.ten_danh_muc')
+        ->whereBetween('san_phams.gia_khuyen_mai', [$minPrice, $maxPrice])
+        ->orderBy('id','desc')
+        ->paginate(10);
+        return $query;
+    }
+
     public function searchSanPham($keyword){
         $query = DB::table('san_phams')
             ->join('danh_mucs','san_phams.danh_muc_id','=','danh_mucs.id')

@@ -122,7 +122,7 @@
                                 <!-- End .megamenu -->
                             </li>
                             <li><a href="{{route('tin-tuc.show')}}">Tin tức</a></li>
-                            <li><a href="contact.html">Liên hệ</a></li>
+                            <li><a href="{{route('lien-he.show')}}">Liên hệ</a></li>
                         </ul>
                     </nav>
                 </div>

@@ -107,6 +107,26 @@
     line-height: 60px;
   }
 
+  .product-quality .soLuong {
+    position: absolute;
+    color: #8f8f8f;
+    left: 10px;
+    cursor: pointer;
+  }
+
+  .product-quality .soLuong.cong {
+    left: auto;
+    right: 10px;
+    font-size: 20px;
+    top: 15px;
+  }
+
+  .product-quality .soLuong.tru {
+    top: -2px;
+    font-size: 30px;
+    line-height: 60px;
+  }
+
 /*don mua*/
 .donmua nav ul {
     display: flex;
@@ -176,13 +196,23 @@
 .btnDonMua .btnDaNhan{
     color: #fff;
     font-weight: 500;
-    background-color: #6c757d;
+    background-color: #dc3545;
 }
 .btnDonMua .btnMuaLai{
     color: #fff;
     font-weight: 500;
     background-color: #dc3545;
     margin-left: 10px;
+}
+.btnDonMua a{
+    background-color: #e7ebf0;
+    color: #000;
+    font-weight: 500;
+    text-decoration: none;
+}
+.btnDonMua a:hover{
+    color: #000;
+    background-color: #cacccf;
 }
 
 /* popup */
@@ -207,6 +237,38 @@
   }
   #cart-message img{
     height: 60px;
+  }
+
+/*btn don mua*/
+
+/* lien he*/
+.guilienhe{
+    display: flex;
+    width: 100%;
+  }
+  .bentrai{
+  width: 100%;
+  }
+  .bentrai h2{
+    font-size: 34px;
+    font-weight: 500;
+    margin-bottom: 30px;
+    }
+  .bentrai .thongtinlienhe h3{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 30px;
+    }
+  .bentrai .thongtinlienhe span{
+    font-size: 16px;
+    font-weight: 600;
+    }
+  .benphai{
+  width: 100%;
+  }
+  #hovatenlhErr, #emaillhErr, #sodienthoailhErr, #noidunglhErr{
+  color: red;
+  margin-left: 5px;
   }
 
 

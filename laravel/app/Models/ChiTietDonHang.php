@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ChiTietDonHang extends Model
 {
@@ -18,4 +20,14 @@ class ChiTietDonHang extends Model
         'thanh_tien',
     ];
     public $timestamps = false;
+
+    public function loadAllCTDH($don_hang_id){
+        $query=DB::table('chi_tiet_don_hangs')
+        ->join('san_phams','chi_tiet_don_hangs.san_pham_id','=','san_phams.id')
+        ->select('chi_tiet_don_hangs.*','san_phams.ten_san_pham','san_phams.hinh_anh')
+        ->where('don_hang_id',$don_hang_id)
+        ->get();
+
+        return $query;
+    }
 }

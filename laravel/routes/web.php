@@ -14,6 +14,7 @@ use App\Http\Controllers\admin\BannerAdminController;
 use App\Http\Controllers\admin\BinhLuanController;
 use App\Http\Controllers\admin\TinTucAdminController;
 use App\Http\Controllers\admin\DonHangAdminController;
+use App\Http\Controllers\frontend\tinTuc\LienHeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,9 +59,18 @@ Route::prefix('gio-hang')->middleware('auth')->group(function(){
     Route::get('chi-tiet-thanh-toan', [GioHangController::class,'showChiTietThanhToan'])->name('gio-hang.chi-tiet-thanh-toan');
     Route::post('tiep-tuc-dat-hang', [GioHangController::class,'tiepTucDatHang'])->name('gio-hang.tiep-tuc-dat-hang');
     Route::post('xac-nhan-dat-hang', [GioHangController::class,'xacNhanDatHang'])->name('gio-hang.xac-nhan-dat-hang');
+
+    Route::get('thanh-toan-vnp', [GioHangController::class,'showThanhToanVNP'])->name('gio-hang.thanh-toan-vnp');
+    Route::post('vnpay_create_payment', [GioHangController::class,'vnpay_create_payment'])->name('gio-hang.vnpay_create_payment');
+    Route::post('thanh-toan-online', [GioHangController::class,'thanhToanOnline'])->name('gio-hang.thanh-toan-online');
+    Route::get('vnpay_return', [GioHangController::class,'vnpay_return'])->name('gio-hang.vnpay_return');
+
     Route::get('xoa-san-pham/{id}', [GioHangController::class,'xoaSanPhamGioHang'])->name('gio-hang.xoa-san-pham');
     Route::get('don-mua', [GioHangController::class,'donMua'])->name('gio-hang.don-mua');
+    Route::post('mua-lai', [GioHangController::class,'muaLaiSanPham'])->name('gio-hang.mua-lai');
+    Route::put('da-nhan-hang/{id}', [GioHangController::class,'daNhanHang'])->name('gio-hang.da-nhan-hang');
     Route::post('them-gio-hang', [GioHangController::class,'addGioHang'])->name('gio-hang.them-gio-hang');
+    Route::post('them-gio-hang-chi-tiet', [GioHangController::class,'themGioHangChiTiet'])->name('gio-hang.them-gio-hang-chi-tiet');
     Route::put('cap-nhat-gio-hang/{id}', [GioHangController::class,'capNhatGioHang'])->name('gio-hang.cap-nhat-gio-hang');
 
 });
@@ -69,11 +79,17 @@ Route::prefix('san-pham')->group(function(){
     Route::get('danh-muc', [SanPhamDanhMucController::class,'show'])->name('san-pham.danh-muc');
     Route::get('san-pham-danh-muc/{id}', [SanPhamDanhMucController::class,'sanPhamDanhMuc'])->name('san-pham.san-pham-danh-muc');
     Route::get('chi-tiet-san-pham/{id}', [SanPhamDanhMucController::class,'chiTietSanPham'])->name('san-pham.chi-tiet-san-pham');
+    Route::post('binh-luan/{id}', [SanPhamDanhMucController::class,'binhLuan'])->name('san-pham.binh-luan');
 });
 
 Route::prefix('tin-tuc')->group(function(){
     Route::get('show', [TinTucController::class,'show'])->name('tin-tuc.show');
     Route::get('chi-tiet/{id}', [TinTucController::class,'chiTietTinTuc'])->name('tin-tuc.chi-tiet');
+});
+
+Route::prefix('lien-he')->group(function(){
+    Route::get('show', [LienHeController::class,'show'])->name('lien-he.show');
+    Route::post('gui-lien-he', [LienHeController::class,'guiLienHe'])->name('lien-he.gui-lien-he');
 });
 
 //admin

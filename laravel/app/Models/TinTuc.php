@@ -10,6 +10,14 @@ class TinTuc extends Model
 {
     use HasFactory;
 
+    protected $table = 'tin_tucs';
+    protected $fillable = [
+        'hinh_anh',
+        'tieu_de',
+        'noi_dung',
+    ];
+    public $timestamps = false;
+
     public function loadAllTinTuc(){
         $query=DB::table('tin_tucs')
         ->orderBy('id','desc')

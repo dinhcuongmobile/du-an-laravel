@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DonHang extends Model
@@ -24,6 +25,24 @@ class DonHang extends Model
     ];
     public $timestamps = false;
 
+    //admin
+    public function loadDHAdmin(){
+        $query=DB::table('don_hangs')
+        ->join('users','don_hangs.tai_khoan_id','=','users.id')
+        ->select('don_hangs.*', 'users.email')
+        ->paginate(10);
+
+        return $query;
+    }
+
+    //end admin
+    public function loadAllDonHang(){
+        $query=DB::table('don_hangs')
+        ->where('tai_khoan_id',Auth::user()->id)
+        ->get();
+
+        return $query;
+    }
     public function addDonHang($data){
         DB::table('don_hangs')->insert($data);
     }
