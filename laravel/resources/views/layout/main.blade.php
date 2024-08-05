@@ -87,7 +87,7 @@
                             @if (Auth::check())
                                 <a href="{{route('gio-hang.show')}}" title="Cart" class="dropdown-toggle cart-toggle">
                                     <i class="minicart-icon"></i>
-                                    <span class="cart-count badge-circle">{{$gio_hangs_count}}</span>
+                                    {{-- <span class="cart-count badge-circle">{{$gio_hangs_count}}</span> --}}
                                 </a>
                             @else
                                 <a href="{{route('tai-khoan.dang-nhap')}}" title="Cart" class="dropdown-toggle cart-toggle">

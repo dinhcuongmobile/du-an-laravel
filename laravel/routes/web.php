@@ -132,6 +132,23 @@ Route::prefix('admin')->middleware('admin')->group(function(){
         Route::post('xoa-nhieu', [DanhMucAdminController::class,'xoaNhieuDanhMuc'])->name('danh-muc.xoa-nhieu');
     });
 
+    //khuyen mai
+    // Route::prefix('khuyen-mai')->group(function(){
+    //     Route::get('danh-sach', [DanhMucAdminController::class,'showDanhSach'])->name('danh-muc.danh-sach');
+    //     //add
+    //     Route::get('them-danh-muc', [DanhMucAdminController::class,'viewAdd'])->name('danh-muc.them-danh-muc');
+    //     Route::post('add', [DanhMucAdminController::class,'add'])->name('danh-muc.add');
+
+    //     //update
+    //     Route::get('sua-danh-muc/{id}', [DanhMucAdminController::class,'viewUpdate'])->name('danh-muc.sua-danh-muc');
+    //     Route::put('update/{id}', [DanhMucAdminController::class,'update'])->name('danh-muc.update');
+
+    //     //delete
+    //     Route::get('delete/{id}', [DanhMucAdminController::class,'delete'])->name('danh-muc.delete');
+
+    //     Route::post('xoa-nhieu', [DanhMucAdminController::class,'xoaNhieuDanhMuc'])->name('danh-muc.xoa-nhieu');
+    // });
+
     //SanPham
     Route::prefix('san-pham')->group(function(){
         Route::get('danh-sach', [SanPhamAdminController::class,'showDanhSach'])->name('san-pham.danh-sach');
@@ -208,3 +225,5 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     });
 
 });
+
+

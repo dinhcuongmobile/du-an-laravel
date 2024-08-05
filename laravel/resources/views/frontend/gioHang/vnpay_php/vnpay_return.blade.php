@@ -10,6 +10,7 @@
         <title>VNPAY RESPONSE</title>
         <!-- Bootstrap core CSS -->
         <link href="assets/bootstrap.min.css" rel="stylesheet"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <!-- Custom styles for this template -->
         <link href="assets/jumbotron-narrow.css" rel="stylesheet">
         <script src="assets/jquery-1.11.3.min.js"></script>
@@ -55,37 +56,35 @@
                 <h3 class="text-muted">VNPAY RESPONSE</h3>
             </div>
             <div class="table-responsive">
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label >Mã đơn hàng:</label>
-
-                    <label>{{ $_GET['vnp_TxnRef']}}</label>
+                    <input type="text" class="form-control" value="{{ $_GET['vnp_TxnRef']}}">
                 </div>
-                <div class="form-group">
-
+                <div class="form-group mt-3">
                     <label >Số tiền:</label>
-                    <label> {{($_GET['vnp_Amount'] / 100)}}</label>
+                    <input type="text" class="form-control" value="{{($_GET['vnp_Amount'] / 100)}}">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label >Nội dung thanh toán:</label>
-                    <label> {{ $_GET['vnp_OrderInfo']}}</label>
+                    <input type="text" class="form-control" value="{{ $_GET['vnp_OrderInfo']}}">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label >Mã phản hồi (vnp_ResponseCode):</label>
-                    <label> {{ $_GET['vnp_ResponseCode']}}</label>
+                    <input type="text" class="form-control" value="{{ $_GET['vnp_ResponseCode']}}">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label >Mã GD Tại VNPAY:</label>
-                    <label> {{ $_GET['vnp_TransactionNo']}}</label>
+                    <input type="text" class="form-control" value="{{ $_GET['vnp_TransactionNo']}}">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label >Mã Ngân hàng:</label>
-                    <label> {{ $_GET['vnp_BankCode']}}</label>
+                    <input type="text" class="form-control" value="{{ $_GET['vnp_BankCode']}}">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label>Thời gian thanh toán:</label>
-                    <label> {{ $_GET['vnp_PayDate']}}</label>
+                    <input type="text" class="form-control" value="{{ $_GET['vnp_PayDate']}}">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label >Kết quả:</label>
                     <label>
                         @if ($secureHash == $vnp_SecureHash)
@@ -104,13 +103,13 @@
                             <br><br><span style='color:blue'>Bạn đã thanh toán thành công. Vui lòng ấn tiếp tục để hoàn tất thanh toán!</span><br><br>
                             <form action="{{route('gio-hang.thanh-toan-online')}}" method="post">
                                 @csrf
-                                <button type="submit" name="tieptuc">Tiếp tục</button>
+                                <button type="submit" name="tieptuc" class="btn btn-success">Tiếp tục</button>
                             </form>
                         @else
-                            <br><br><a href="{{route('gio-hang.chi-tiet-thanh-toan')}}"><button type='button'>Quay lại</button></a>
+                            <br><br><a href="{{route('gio-hang.chi-tiet-thanh-toan')}}"><button class="btn btn-success" type='button'>Quay lại</button></a>
                         @endif
                     @else
-                        <br><br><a href="{{route('gio-hang.chi-tiet-thanh-toan')}}"><button type='button'>Quay lại</button></a>
+                        <br><br><a href="{{route('gio-hang.chi-tiet-thanh-toan')}}"><button class="btn btn-success" type='button'>Quay lại</button></a>
                     @endif
                 </div>
             </div>

@@ -51,6 +51,167 @@ class GioHangController extends Controller
     }
 
     //thanh toan online
+
+
+    public function xacNhanDatHang(Request $request){
+        if($request->radio==0){
+            if($request->has('dia_chi_khac')){
+                $request->validate(
+                    [
+                        'ho_va_ten_nhan' => 'required|string|max:255',
+                        'so_dt_nhan' => 'required|regex:/^0[1-9][0-9]{8}$/',
+                        'dia_chi_nhan' => 'required|string|min:4|max:255',
+                    ],
+                    [
+                        'ho_va_ten_nhan.required' => 'Vui lòng không bỏ trống họ và tên !',
+                        'ho_va_ten_nhan.max' => 'Họ và tên quá dài !',
+                        'so_dt_nhan.required' => 'Vui lòng không bỏ trống số điện thoại !',
+                        'so_dt_nhan.regex' => 'Số điện thoại không hợp lệ!',
+                        'dia_chi_nhan.required' => 'Vui lòng không bỏ trống địa chỉ !',
+                        'dia_chi_nhan.min' => 'Địa chỉ quá ngắn!',
+                        'dia_chi_nhan.max' => 'Địa chỉ quá dài!',
+                    ]
+                );
+                $gio_hang = session()->get('gio_hangs', []);
+                $dataDonHang=[
+                    'tai_khoan_id' => Auth::user()->id,
+                    'ho_ten_nhan' => $request->ho_va_ten_nhan,
+                    'ngay_dat_hang' => now(),
+                    'dia_chi_nhan' => $request->dia_chi_nhan,
+                    'so_dt_nhan' => $request->so_dt_nhan,
+                    'tong_thanh_toan' => $request->tong_thanh_toan,
+                    'phuong_thuc_tt' => 0,
+                ];
+                $donHang = DonHang::create($dataDonHang);
+                foreach ($gio_hang as $item) {
+                    $dataChiTiet=[
+                        'don_hang_id' => $donHang->id,
+                        'san_pham_id' => $item->san_pham_id,
+                        'so_luong' => $item->so_luong,
+                        'don_gia' => $item->gia_khuyen_mai,
+                        'thanh_tien' => $item->thanh_tien,
+                        'created_at' => now()
+                    ];
+                    ChiTietDonHang::create($dataChiTiet);
+                    SanPham::where('id',$item->san_pham_id)->update(['so_luong'=>$item->so_luong_sp-$item->so_luong]);
+                    GioHang::where('tai_khoan_id', Auth::user()->id)->where('san_pham_id',$item->san_pham_id)->delete();
+                }
+                $don_hang=$this->don_hangs->loadOneDonHang($donHang->id);
+                $chi_tiet_don_hangs = $this->chi_tiet_don_hangs->loadAllCTDH($donHang->id);
+                Mail::to(Auth::user()->email)->send(new SendHoaDon($don_hang, $chi_tiet_don_hangs));
+                return redirect()->route('gio-hang.don-mua');
+            }else{
+                $request->validate(
+                    [
+                        'ho_va_ten' => 'required|string|max:255',
+                        'so_dien_thoai' => 'required|regex:/^0[1-9][0-9]{8}$/',
+                        'dia_chi' => 'required|string|min:4|max:255',
+                    ],
+                    [
+                        'ho_va_ten.required' => 'Vui lòng không bỏ trống họ và tên !',
+                        'ho_va_ten.max' => 'Họ và tên quá dài !',
+                        'so_dien_thoai.required' => 'Vui lòng không bỏ trống số điện thoại !',
+                        'so_dien_thoai.regex' => 'Số điện thoại không hợp lệ!',
+                        'dia_chi.required' => 'Vui lòng không bỏ trống địa chỉ !',
+                        'dia_chi.min' => 'Địa chỉ quá ngắn!',
+                        'dia_chi.max' => 'Địa chỉ quá dài!',
+                    ]
+                );
+                $gio_hang = session()->get('gio_hangs', []);
+                $dataDonHang=[
+                    'tai_khoan_id' => Auth::user()->id,
+                    'ho_ten_nhan' => $request->ho_va_ten,
+                    'ngay_dat_hang' => now(),
+                    'dia_chi_nhan' => $request->dia_chi,
+                    'so_dt_nhan' => $request->so_dien_thoai,
+                    'tong_thanh_toan' => $request->tong_thanh_toan,
+                    'phuong_thuc_tt' => 0,
+                ];
+                $donHang = DonHang::create($dataDonHang);
+                foreach ($gio_hang as $item) {
+                    $dataChiTiet=[
+                        'don_hang_id' => $donHang->id,
+                        'san_pham_id' => $item->san_pham_id,
+                        'so_luong' => $item->so_luong,
+                        'don_gia' => $item->gia_khuyen_mai,
+                        'thanh_tien' => $item->thanh_tien,
+                        'created_at' => now()
+                    ];
+                    ChiTietDonHang::create($dataChiTiet);
+                    SanPham::where('id',$item->san_pham_id)->update(['so_luong'=>$item->so_luong_sp-$item->so_luong]);
+                    GioHang::where('tai_khoan_id', Auth::user()->id)->where('san_pham_id',$item->san_pham_id)->delete();
+                }
+                $don_hang=$this->don_hangs->loadOneDonHang($donHang->id);
+                $chi_tiet_don_hangs = $this->chi_tiet_don_hangs->loadAllCTDH($donHang->id);
+                Mail::to(Auth::user()->email)->send(new SendHoaDon($don_hang, $chi_tiet_don_hangs));
+                return redirect()->route('gio-hang.don-mua');
+            }
+        }else{
+            if($request->has('dia_chi_khac')){
+                $request->validate(
+                    [
+                        'ho_va_ten_nhan' => 'required|string|max:255',
+                        'so_dt_nhan' => 'required|regex:/^0[1-9][0-9]{8}$/',
+                        'dia_chi_nhan' => 'required|string|min:4|max:255',
+                    ],
+                    [
+                        'ho_va_ten_nhan.required' => 'Vui lòng không bỏ trống họ và tên !',
+                        'ho_va_ten_nhan.max' => 'Họ và tên quá dài !',
+                        'so_dt_nhan.required' => 'Vui lòng không bỏ trống số điện thoại !',
+                        'so_dt_nhan.regex' => 'Số điện thoại không hợp lệ!',
+                        'dia_chi_nhan.required' => 'Vui lòng không bỏ trống địa chỉ !',
+                        'dia_chi_nhan.min' => 'Địa chỉ quá ngắn!',
+                        'dia_chi_nhan.max' => 'Địa chỉ quá dài!',
+                    ]
+                );
+                $dataDonHang=[
+                    'tai_khoan_id' => Auth::user()->id,
+                    'ho_ten_nhan' => $request->ho_va_ten,
+                    'ngay_dat_hang' => now(),
+                    'dia_chi_nhan' => $request->dia_chi,
+                    'so_dt_nhan' => $request->so_dien_thoai,
+                    'tong_thanh_toan' => $request->tong_thanh_toan,
+                    'phuong_thuc_tt' => 1,
+                    'trang_thai' => 1,
+                    'thanh_toan' => 1,
+                ];
+                session()->put('thongtin_dathang', $dataDonHang);
+                return redirect()->route('gio-hang.thanh-toan-vnp');
+            }else{
+                $request->validate(
+                    [
+                        'ho_va_ten' => 'required|string|max:255',
+                        'so_dien_thoai' => 'required|regex:/^0[1-9][0-9]{8}$/',
+                        'dia_chi' => 'required|string|min:4|max:255',
+                    ],
+                    [
+                        'ho_va_ten.required' => 'Vui lòng không bỏ trống họ và tên !',
+                        'ho_va_ten.max' => 'Họ và tên quá dài !',
+                        'so_dien_thoai.required' => 'Vui lòng không bỏ trống số điện thoại !',
+                        'so_dien_thoai.regex' => 'Số điện thoại không hợp lệ!',
+                        'dia_chi.required' => 'Vui lòng không bỏ trống địa chỉ !',
+                        'dia_chi.min' => 'Địa chỉ quá ngắn!',
+                        'dia_chi.max' => 'Địa chỉ quá dài!',
+                    ]
+                );
+
+                $dataDonHang=[
+                    'tai_khoan_id' => Auth::user()->id,
+                    'ho_ten_nhan' => $request->ho_va_ten,
+                    'ngay_dat_hang' => now(),
+                    'dia_chi_nhan' => $request->dia_chi,
+                    'so_dt_nhan' => $request->so_dien_thoai,
+                    'tong_thanh_toan' => $request->tong_thanh_toan,
+                    'phuong_thuc_tt' => 1,
+                    'trang_thai' => 1,
+                    'thanh_toan' => 1,
+                ];
+                session()->put('thongtin_dathang', $dataDonHang);
+                return redirect()->route('gio-hang.thanh-toan-vnp');
+            }
+        }
+    }
+
     public function showThanhToanVNP(){
         if(empty(session()->get('gio_hangs', []))){
             return redirect()->route('gio-hang.show');
@@ -67,34 +228,29 @@ class GioHangController extends Controller
     public function vnpay_create_payment(Request $request){
         error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 
-        /**
-         *
-         *
-         * @author CTT VNPAY
-         */
-        $vnp_TmnCode = "ELVAQEWH"; //Mã định danh merchant kết nối (Terminal Id)
-        $vnp_HashSecret = "UMNOHDQWWDIRGSNATSWASPXTXOFSMHZR"; //Secret key
+        $vnp_TmnCode = "ELVAQEWH"; // Mã định danh merchant kết nối (Terminal Id)
+        $vnp_HashSecret = "UMNOHDQWWDIRGSNATSWASPXTXOFSMHZR"; // Secret key
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/gio-hang/vnpay_return";
+        $vnp_Returnurl = route('gio-hang.vnpay_return'); // Sử dụng route name để tự động hóa URL
         $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
         $apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
-        //Config input format
-        //Expire
+
+        // Cấu hình định dạng đầu vào
         $startTime = date("YmdHis");
-        $expire = date('YmdHis',strtotime('+15 minutes',strtotime($startTime)));
+        $expire = date('YmdHis', strtotime('+15 minutes', strtotime($startTime)));
 
-        $vnp_TxnRef = rand(1,10000); //Mã giao dịch thanh toán tham chiếu của merchant
-        $vnp_Amount = $_POST['amount']; // Số tiền thanh toán
-        $vnp_Locale = $_POST['language']; //Ngôn ngữ chuyển hướng thanh toán
-        $vnp_BankCode = $_POST['bankCode']; //Mã phương thức thanh toán
-        $vnp_IpAddr = $_SERVER['REMOTE_ADDR']; //IP Khách hàng thanh toán
+        $vnp_TxnRef = rand(1, 10000); // Mã giao dịch thanh toán tham chiếu của merchant
+        $vnp_Amount = $request->input('amount'); // Số tiền thanh toán
+        $vnp_Locale = $request->input('language'); // Ngôn ngữ chuyển hướng thanh toán
+        $vnp_BankCode = $request->input('bankCode'); // Mã phương thức thanh toán
+        $vnp_IpAddr = $request->ip(); // IP Khách hàng thanh toán
 
-        $inputData = array(
-            "vnp_Version" => "2.1.0",
+        $inputData = [
+           "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
             "vnp_Amount" => $vnp_Amount* 100,
             "vnp_Command" => "pay",
-            "vnp_CreateDate" =>  date("YmdHis"),
+            "vnp_CreateDate" => date('YmdHis'),
             "vnp_CurrCode" => "VND",
             "vnp_IpAddr" => $vnp_IpAddr,
             "vnp_Locale" => $vnp_Locale,
@@ -103,7 +259,7 @@ class GioHangController extends Controller
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
             "vnp_ExpireDate"=>$expire
-        );
+        ];
 
         if (isset($vnp_BankCode) && $vnp_BankCode != "") {
             $inputData['vnp_BankCode'] = $vnp_BankCode;
@@ -113,6 +269,7 @@ class GioHangController extends Controller
         $query = "";
         $i = 0;
         $hashdata = "";
+
         foreach ($inputData as $key => $value) {
             if ($i == 1) {
                 $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
@@ -122,16 +279,15 @@ class GioHangController extends Controller
             }
             $query .= urlencode($key) . "=" . urlencode($value) . '&';
         }
-
         $vnp_Url = $vnp_Url . "?" . $query;
         if (isset($vnp_HashSecret)) {
             $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-        header('Location: ' . $vnp_Url);
-        die();
 
+        return redirect()->away($vnp_Url);
     }
+
 
     public function thanhToanOnline(Request $request){
         if(empty(session()->get('thongtin_dathang', []))){
@@ -153,6 +309,9 @@ class GioHangController extends Controller
                 ChiTietDonHang::create($dataChiTiet);
                 SanPham::where('id',$item->san_pham_id)->update(['so_luong'=>$item->so_luong_sp-$item->so_luong]);
                 GioHang::where('tai_khoan_id', Auth::user()->id)->where('san_pham_id',$item->san_pham_id)->delete();
+                $don_hang=$this->don_hangs->loadOneDonHang($donHang->id);
+                $chi_tiet_don_hangs = $this->chi_tiet_don_hangs->loadAllCTDH($donHang->id);
+                Mail::to(Auth::user()->email)->send(new SendHoaDon($don_hang, $chi_tiet_don_hangs));
             }
             session()->forget('gio_hangs');
             session()->forget('thongtin_dathang');
@@ -339,161 +498,6 @@ class GioHangController extends Controller
             return redirect()->route('gio-hang.chi-tiet-thanh-toan');
         }
 
-    }
-
-    public function xacNhanDatHang(Request $request){
-        if($request->radio==0){
-            if($request->has('dia_chi_khac')){
-                $request->validate(
-                    [
-                        'ho_va_ten_nhan' => 'required|string|max:255',
-                        'so_dt_nhan' => 'required|regex:/^0[1-9][0-9]{8}$/',
-                        'dia_chi_nhan' => 'required|string|min:4|max:255',
-                    ],
-                    [
-                        'ho_va_ten_nhan.required' => 'Vui lòng không bỏ trống họ và tên !',
-                        'ho_va_ten_nhan.max' => 'Họ và tên quá dài !',
-                        'so_dt_nhan.required' => 'Vui lòng không bỏ trống số điện thoại !',
-                        'so_dt_nhan.regex' => 'Số điện thoại không hợp lệ!',
-                        'dia_chi_nhan.required' => 'Vui lòng không bỏ trống địa chỉ !',
-                        'dia_chi_nhan.min' => 'Địa chỉ quá ngắn!',
-                        'dia_chi_nhan.max' => 'Địa chỉ quá dài!',
-                    ]
-                );
-                $gio_hang = session()->get('gio_hangs', []);
-                $dataDonHang=[
-                    'tai_khoan_id' => Auth::user()->id,
-                    'ho_ten_nhan' => $request->ho_va_ten_nhan,
-                    'ngay_dat_hang' => now(),
-                    'dia_chi_nhan' => $request->dia_chi_nhan,
-                    'so_dt_nhan' => $request->so_dt_nhan,
-                    'tong_thanh_toan' => $request->tong_thanh_toan,
-                    'phuong_thuc_tt' => 0,
-                ];
-                $donHang = DonHang::create($dataDonHang);
-                foreach ($gio_hang as $item) {
-                    $dataChiTiet=[
-                        'don_hang_id' => $donHang->id,
-                        'san_pham_id' => $item->san_pham_id,
-                        'so_luong' => $item->so_luong,
-                        'don_gia' => $item->gia_khuyen_mai,
-                        'thanh_tien' => $item->thanh_tien,
-                        'created_at' => now()
-                    ];
-                    ChiTietDonHang::create($dataChiTiet);
-                    SanPham::where('id',$item->san_pham_id)->update(['so_luong'=>$item->so_luong_sp-$item->so_luong]);
-                    GioHang::where('tai_khoan_id', Auth::user()->id)->where('san_pham_id',$item->san_pham_id)->delete();
-                }
-                $don_hang=$this->don_hangs->loadOneDonHang($donHang->id);
-                $chi_tiet_don_hangs = $this->chi_tiet_don_hangs->loadAllCTDH($donHang->id);
-                Mail::to(Auth::user()->email)->send(new SendHoaDon($don_hang, $chi_tiet_don_hangs));
-                return redirect()->route('gio-hang.don-mua');
-            }else{
-                $request->validate(
-                    [
-                        'ho_va_ten' => 'required|string|max:255',
-                        'so_dien_thoai' => 'required|regex:/^0[1-9][0-9]{8}$/',
-                        'dia_chi' => 'required|string|min:4|max:255',
-                    ],
-                    [
-                        'ho_va_ten.required' => 'Vui lòng không bỏ trống họ và tên !',
-                        'ho_va_ten.max' => 'Họ và tên quá dài !',
-                        'so_dien_thoai.required' => 'Vui lòng không bỏ trống số điện thoại !',
-                        'so_dien_thoai.regex' => 'Số điện thoại không hợp lệ!',
-                        'dia_chi.required' => 'Vui lòng không bỏ trống địa chỉ !',
-                        'dia_chi.min' => 'Địa chỉ quá ngắn!',
-                        'dia_chi.max' => 'Địa chỉ quá dài!',
-                    ]
-                );
-                $gio_hang = session()->get('gio_hangs', []);
-                $dataDonHang=[
-                    'tai_khoan_id' => Auth::user()->id,
-                    'ho_ten_nhan' => $request->ho_va_ten,
-                    'ngay_dat_hang' => now(),
-                    'dia_chi_nhan' => $request->dia_chi,
-                    'so_dt_nhan' => $request->so_dien_thoai,
-                    'tong_thanh_toan' => $request->tong_thanh_toan,
-                    'phuong_thuc_tt' => 0,
-                ];
-                $donHang = DonHang::create($dataDonHang);
-                foreach ($gio_hang as $item) {
-                    $dataChiTiet=[
-                        'don_hang_id' => $donHang->id,
-                        'san_pham_id' => $item->san_pham_id,
-                        'so_luong' => $item->so_luong,
-                        'don_gia' => $item->gia_khuyen_mai,
-                        'thanh_tien' => $item->thanh_tien,
-                        'created_at' => now()
-                    ];
-                    ChiTietDonHang::create($dataChiTiet);
-                    SanPham::where('id',$item->san_pham_id)->update(['so_luong'=>$item->so_luong_sp-$item->so_luong]);
-                    GioHang::where('tai_khoan_id', Auth::user()->id)->where('san_pham_id',$item->san_pham_id)->delete();
-                }
-                $don_hang=$this->don_hangs->loadOneDonHang($donHang->id);
-                $chi_tiet_don_hangs = $this->chi_tiet_don_hangs->loadAllCTDH($donHang->id);
-                Mail::to(Auth::user()->email)->send(new SendHoaDon($don_hang, $chi_tiet_don_hangs));
-                return redirect()->route('gio-hang.don-mua');
-            }
-        }else{
-            if($request->has('dia_chi_khac')){
-                $request->validate(
-                    [
-                        'ho_va_ten_nhan' => 'required|string|max:255',
-                        'so_dt_nhan' => 'required|regex:/^0[1-9][0-9]{8}$/',
-                        'dia_chi_nhan' => 'required|string|min:4|max:255',
-                    ],
-                    [
-                        'ho_va_ten_nhan.required' => 'Vui lòng không bỏ trống họ và tên !',
-                        'ho_va_ten_nhan.max' => 'Họ và tên quá dài !',
-                        'so_dt_nhan.required' => 'Vui lòng không bỏ trống số điện thoại !',
-                        'so_dt_nhan.regex' => 'Số điện thoại không hợp lệ!',
-                        'dia_chi_nhan.required' => 'Vui lòng không bỏ trống địa chỉ !',
-                        'dia_chi_nhan.min' => 'Địa chỉ quá ngắn!',
-                        'dia_chi_nhan.max' => 'Địa chỉ quá dài!',
-                    ]
-                );
-                $dataDonHang=[
-                    'tai_khoan_id' => Auth::user()->id,
-                    'ho_ten_nhan' => $request->ho_va_ten,
-                    'ngay_dat_hang' => now(),
-                    'dia_chi_nhan' => $request->dia_chi,
-                    'so_dt_nhan' => $request->so_dien_thoai,
-                    'tong_thanh_toan' => $request->tong_thanh_toan,
-                    'phuong_thuc_tt' => 0,
-                ];
-                session()->put('thongtin_dathang', $dataDonHang);
-                return redirect()->route('gio-hang.thanh-toan-vnp');
-            }else{
-                $request->validate(
-                    [
-                        'ho_va_ten' => 'required|string|max:255',
-                        'so_dien_thoai' => 'required|regex:/^0[1-9][0-9]{8}$/',
-                        'dia_chi' => 'required|string|min:4|max:255',
-                    ],
-                    [
-                        'ho_va_ten.required' => 'Vui lòng không bỏ trống họ và tên !',
-                        'ho_va_ten.max' => 'Họ và tên quá dài !',
-                        'so_dien_thoai.required' => 'Vui lòng không bỏ trống số điện thoại !',
-                        'so_dien_thoai.regex' => 'Số điện thoại không hợp lệ!',
-                        'dia_chi.required' => 'Vui lòng không bỏ trống địa chỉ !',
-                        'dia_chi.min' => 'Địa chỉ quá ngắn!',
-                        'dia_chi.max' => 'Địa chỉ quá dài!',
-                    ]
-                );
-
-                $dataDonHang=[
-                    'tai_khoan_id' => Auth::user()->id,
-                    'ho_ten_nhan' => $request->ho_va_ten,
-                    'ngay_dat_hang' => now(),
-                    'dia_chi_nhan' => $request->dia_chi,
-                    'so_dt_nhan' => $request->so_dien_thoai,
-                    'tong_thanh_toan' => $request->tong_thanh_toan,
-                    'phuong_thuc_tt' => 0,
-                ];
-                session()->put('thongtin_dathang', $dataDonHang);
-                return redirect()->route('gio-hang.thanh-toan-vnp');
-            }
-        }
     }
 
     public function xoaSanPhamGioHang($id){
