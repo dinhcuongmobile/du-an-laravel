@@ -52,7 +52,7 @@
                                             id="" value="{{ $item->id }}"></td>
                                     <td class="col-1 align-middle text-center">DCM-{{ $item->id }}</td>
                                     <td class="col-1 align-middle"><img src="{{ Storage::url($item->hinh_anh) }}"
-                                            alt="err" height="60px"></td>
+                                        alt="err" height="60px"></td>
                                     <td class="col-2 align-middle">{{ $item->ten_san_pham }}</td>
                                     <td class="col-2 align-middle">{{ number_format($item->gia_san_pham, 0, ',', '.') }} VND
                                     </td>
