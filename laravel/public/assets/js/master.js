@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }, 10000); // 10 giây
     }
 });
-// end thong bao loi error
+// end thong bao loi error 
 
 //them gio hang
 function themGioHang(san_pham_id,gia_khuyen_mai){

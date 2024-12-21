@@ -228,12 +228,10 @@ class GioHangController extends Controller
     public function vnpay_create_payment(Request $request){
         error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 
-        $vnp_TmnCode = "ELVAQEWH"; // Mã định danh merchant kết nối (Terminal Id)
-        $vnp_HashSecret = "UMNOHDQWWDIRGSNATSWASPXTXOFSMHZR"; // Secret key
+        $vnp_TmnCode = "16WV2BQQ"; // Mã định danh merchant kết nối (Terminal Id)
+        $vnp_HashSecret = "9NMT725FGBXEI9FS4CI5HUGN0UJJB7FW"; // Secret key
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = route('gio-hang.vnpay_return'); // Sử dụng route name để tự động hóa URL
-        $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
-        $apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
 
         // Cấu hình định dạng đầu vào
         $startTime = date("YmdHis");
@@ -241,8 +239,8 @@ class GioHangController extends Controller
 
         $vnp_TxnRef = rand(1, 10000); // Mã giao dịch thanh toán tham chiếu của merchant
         $vnp_Amount = $request->input('amount'); // Số tiền thanh toán
-        $vnp_Locale = $request->input('language'); // Ngôn ngữ chuyển hướng thanh toán
-        $vnp_BankCode = $request->input('bankCode'); // Mã phương thức thanh toán
+        $vnp_Locale = "VN"; // Ngôn ngữ chuyển hướng thanh toán
+        $vnp_BankCode = "NCB"; // Mã phương thức thanh toán
         $vnp_IpAddr = $request->ip(); // IP Khách hàng thanh toán
 
         $inputData = [

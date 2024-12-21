@@ -113,7 +113,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" id="product-tab-reviews" data-toggle="tab" href="#product-reviews-content" role="tab" aria-controls="product-reviews-content" aria-selected="false">Đánh giá (<span id="countBinhLuan1">{{$count_binh_luan}}</span>)</a>
+                    <a class="nav-link" id="product-tab-reviews" data-toggle="tab" href="#product-reviews-content" role="tab" aria-controls="product-reviews-content" aria-selected="false">Bình luận (<span id="countBinhLuan1">{{$count_binh_luan}}</span>)</a>
                 </li>
             </ul>
 
@@ -128,7 +128,7 @@
 
                 <div class="tab-pane fade" id="product-reviews-content" role="tabpanel" aria-labelledby="product-tab-reviews">
                     <div class="product-reviews-content">
-                        <h3 class="reviews-title"><span id="countBinhLuan2">{{$count_binh_luan}}</span> đánh giá cho {{$san_pham->ten_san_pham}}</h3>
+                        <h3 class="reviews-title"><span id="countBinhLuan2">{{$count_binh_luan}}</span> Bình luận cho {{$san_pham->ten_san_pham}}</h3>
                         <div id="loadBinhLuan">
                             @foreach ($binh_luans as $item)
                                 <div class="comment-list">
@@ -159,11 +159,11 @@
 
                         @if (Auth::check())
                             <div class="add-product-review">
-                                <h3 class="review-title">Đánh giá cho sản phẩm này</h3>
+                                <h3 class="review-title">Bình luận cho sản phẩm này</h3>
 
                                 <form class="comment-form m-0">
                                     <div class="form-group">
-                                        <label>Đánh giá của bạn <span class="text-danger">*</span></label>
+                                        <label>Bình luận của bạn <span class="text-danger">*</span></label>
                                         <textarea id="noidung" cols="5" rows="6" class="form-control form-control-sm"></textarea>
                                         <p id="binhluanErr" style="color:red;"></p>
                                     </div>
@@ -171,7 +171,7 @@
                                     <input id="ngaybinhluan" type="hidden" value="<?= date('Y-m-d H:i:s'); ?>">
                                     <input type="hidden" id="binhLuanToken" name="_token" value="{{ csrf_token() }}">
                                     <input type="hidden" id="hoTenBinhLuan" value="{{ Auth::user()->ho_va_ten }}">
-                                    <span class="btn btn-primary" onclick="binhLuan({{$san_pham->id}})">Đánh giá</span>
+                                    <span class="btn btn-primary" onclick="binhLuan({{$san_pham->id}})">Bình luận</span>
                                 </form>
                             </div>
                         @endif

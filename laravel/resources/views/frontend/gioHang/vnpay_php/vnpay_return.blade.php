@@ -17,12 +17,10 @@
     </head>
     <body>
         @php
-            $vnp_TmnCode = "ELVAQEWH"; //Mã định danh merchant kết nối (Terminal Id)
-            $vnp_HashSecret = "UMNOHDQWWDIRGSNATSWASPXTXOFSMHZR"; //Secret key
+            $vnp_TmnCode = "16WV2BQQ"; // Mã định danh merchant kết nối (Terminal Id)
+            $vnp_HashSecret = "9NMT725FGBXEI9FS4CI5HUGN0UJJB7FW"; // Secret key
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            $vnp_Returnurl = "http://127.0.0.1:8000/gio-hang/vnpay_return";
-            $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
-            $apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
+            $vnp_Returnurl = route('gio-hang.vnpay_return'); // Sử dụng route name để tự động hóa URL
             //Config input format
             //Expire
             $startTime = date("YmdHis");

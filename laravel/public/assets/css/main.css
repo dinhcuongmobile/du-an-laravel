@@ -227,7 +227,7 @@
     background-color: rgba(0, 0, 0, 0.65);
     padding: 20px;
     z-index: 9999;
-    border-radius: 5px;
+    border-radius: 5px; 
   }
   #cart-message {
     padding: 70px 20px;
